@@ -38,7 +38,7 @@ Django와 object
 
 ## 오브젤트 실습 1
 
-```python3
+```python
 class Text:
 	def __init__(self, str): #생성자 : 초기화 할때 자동으로 실행
 		self.text = str
@@ -58,7 +58,7 @@ print(t.text)
 - 클래스 변수 : 모든 클래스의 인스턴스 간에 값을 공유하는 변수
 - 인스턴스 변수 : 인스턴스마다 개별적으로 다른 값을 가지는 변수 
 
-```python3
+```python
 class User:
 	num_users = 0 #class variables
 	def __init__(self, name):
@@ -74,7 +74,7 @@ print(User.num_users, u.num_users, u2.num_users)
 
 ## 오브젝트 실습2
 
-```python3
+```python
 class Text:
 	def __init__(self, str): #생성자 : 초기화 할때 자동으로 실행
 		self.text = str
