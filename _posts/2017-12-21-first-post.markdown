@@ -8,7 +8,7 @@ I'd like to write `TIL(today I learned)` and something else on this blog.
 
 
 This is my plan:
-{% highligt %}
+{% highlight %}
 - Work out
 - Practice Python
 - Study about Web programming
