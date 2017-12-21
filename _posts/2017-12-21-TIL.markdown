@@ -1,13 +1,13 @@
 ---
 layout: post
 title:  "2017-12-21 TID"
-date:   2017-12-21 14:38:08 +0900
+date:   2017-12-21 15:38:08 +0900
 categories: jekyll update
 ---
 
-#파이썬 기초#
+# 파이썬 기초
 
-##오브젝트란?##
+## 오브젝트란?
 
 클래스?, 오브젝트?
 --> 객체 지향 프로그래밍에서 나온 단어
@@ -36,7 +36,7 @@ Django와 object
 - 객체 : 클래스를 인스턴스화 한 것
 
 
-##오브젤트 실습 1##
+## 오브젤트 실습 1
 
 ```python3
 class Text:
@@ -53,7 +53,7 @@ print(t)
 print(t.text)
 ```
 
-##클래스 변수와 인스턴스 변수##
+## 클래스 변수와 인스턴스 변수
 
 - 클래스 변수 : 모든 클래스의 인스턴스 간에 값을 공유하는 변수
 - 인스턴스 변수 : 인스턴스마다 개별적으로 다른 값을 가지는 변수 
@@ -72,7 +72,7 @@ print(User.num_users, u2.name)
 print(User.num_users, u.num_users, u2.num_users)
 ```
 
-##오브젝트 실습2##
+## 오브젝트 실습2
 
 ```python3
 class Text:
@@ -107,7 +107,7 @@ print(t)
 print(user, user.numArticle)
 ```
 
-##오브젝트 실습3(상속)##
+## 오브젝트 실습3(상속)
 
 ```python
 class Text:
