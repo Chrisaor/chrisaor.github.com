@@ -24,7 +24,7 @@ categories: jekyll update
 
 ## 프로젝트 및 앱 생성
 
-1. 가상환경 만들기
+1.가상환경 만들기
 
 ```
 $ mkdir pythonenv
@@ -33,7 +33,7 @@ $ python3 -m venv app1env
 $ source app1env/bin/activate
 ```
 
-1. 장고 설치
+2.장고 설치
 
 장고를 설치하는데 필요한 ```pip```이 최신버전인지 확인인
 ```
@@ -47,14 +47,15 @@ $ source app1env/bin/activate
 
 그 후 workspace로 이동하여 작업함
 
-1. 프로젝트 생성
+3.프로젝트 생성
 
 ```
 (app1env) $ django-admin startproject mysite
 ```
 
 
-1. App 생성
+4.App 생성
+
 ```
 (app1env) $ python manage.py startapp lotto
 ```
@@ -70,13 +71,15 @@ INSTALLED_APPS = [
     'lotto',
 ]
 
-1. server start
+5.server start
+
 ```
 python manage.py runserver
 ```
 ![serverStart](https://user-images.githubusercontent.com/33015649/34285333-60b1f132-e71c-11e7-92ab-f731a8dd280b.png)
 
-1. 확인
+6.확인
+
 브라우저 열고 127.0.0.1:8000/ 접속해서 정상동작 확인
 ![confirm](https://user-images.githubusercontent.com/33015649/34285333-60b1f132-e71c-11e7-92ab-f731a8dd280b.png)
 
