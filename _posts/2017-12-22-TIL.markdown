@@ -81,7 +81,7 @@ python manage.py runserver
 6.확인
 
 브라우저 열고 127.0.0.1:8000/ 접속해서 정상동작 확인
-![confirm](https://user-images.githubusercontent.com/33015649/34285333-60b1f132-e71c-11e7-92ab-f731a8dd280b.png)
+![confirm](https://user-images.githubusercontent.com/33015649/34290222-8de78d3e-e739-11e7-9f76-77a3111237fd.png)
 
 
 ## urls.py와 views 수정
