@@ -16,7 +16,7 @@ categories: jekyll update
     WSGI(Web Server Gateway Interface) = Web server와 Django에 URL파일을 연결해줌
 1. urls.py에서 url을 파싱하고 View(URL을 처리하는 규칙)로 전달됨, View는 콘트롤러가 아니다.
 	```Response를 바로 사용자에게 돌려줄 수 있다(일반적으로는 Template과 Model까지 활용)```
-	MVC(Model View Controller)와 비교했을 때 view는 의미가 서로 다름. MVC에서 Controller는 dJango
+	MVC(Model View Controller)와 비교했을 때 view는 의미가 서로 다름. MVC에서 Controller는 Django
 1.  View에서 Model로 넘어가는데 Model은 object임. Model object는 DB를 쉽게 조작할 수 있게 한다. object로 관리를 하여 영구적으로 읽고 쓰기가 가능하다.
 1. View와 Model을 거쳐 생겨난 보통 dictionary형태(object)의 date는 view를 다시 거쳐 Template으로 전달됨.
 1. Template는 data를 디자인 요소로 처리하여 View로 다시 되돌려준다.
@@ -83,14 +83,6 @@ python manage.py runserver
 브라우저 열고 127.0.0.1:8000/ 접속해서 정상동작 확인
 ![confirm](https://user-images.githubusercontent.com/33015649/34290222-8de78d3e-e739-11e7-9f76-77a3111237fd.png)
 
-
-## urls.py와 views 수정
-
-## Model 클래스 만들기
-
-## admin site 에 Model 등록하기
-
-## 장고 테스트 코드 작성
 
 
 
