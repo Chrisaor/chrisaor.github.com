@@ -4,8 +4,8 @@ title:  "2017-12-23 TID"
 date:   2017-12-23 13:00:00 +0900
 categories: jekyll update
 ---
-장고 : urls.py와 views수정 부분을 다시 보면서 복습함
-알고리즘 연습 : 6번째 문제 StringToInt 문제를 풀면서 string 을 int type으로 바꾸는 int()함수를 배움
+장고 : urls.py와 views수정 부분을 다시 보면서 복습함.
+알고리즘 연습 : 6번째 문제 StringToInt 문제를 풀면서 string 을 int type으로 바꾸는 int()함수를 배움.
 7번째 문제인 WaterMelon을 성공해서 제출하고 다른 사람의 풀이과정을 보는데 입이 떡 벌어짐...
 
 나의 코드 :
