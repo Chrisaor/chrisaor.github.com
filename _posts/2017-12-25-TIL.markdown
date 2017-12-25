@@ -2,7 +2,6 @@
 layout: post
 title:  "2017-12-25 TID"
 date:   2017-12-25 13:30:00 +0900
-categories: jekyll update
 ---
 
 알고리즘 연습 : 문자열에 p와 y의 개수를 비교해 같은 True, 다르면 False 리턴하기
