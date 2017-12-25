@@ -23,7 +23,7 @@ print(sumMatrix([[1,2], [2,3]], [[3,4],[5,6]]))
 
 그리고 고수의 답을 봤는데..
 
-'???
+???
 
 ```python
 def sumMatrix(A,B):
@@ -37,6 +37,7 @@ print(sumMatrix([[1,2], [2,3]], [[3,4],[5,6]]))
 
 zip(*iterables)
 Make an iterator that aggregates elements from each of the iterables.
+```
 >>> x = [1, 2, 3]
 >>> y = [4, 5, 6]
 >>> zipped = zip(x, y)
@@ -45,4 +46,4 @@ Make an iterator that aggregates elements from each of the iterables.
 >>> x2, y2 = zip(*zip(x, y))
 >>> x == list(x2) and y == list(y2)
 True
-
+```
