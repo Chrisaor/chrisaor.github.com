@@ -24,7 +24,7 @@ instagram_username: ch_park_best
 
 # Build settings
 markdown: kramdown
-theme: minima
+theme: Hyde
 plugins:
   - jekyll-feed
 
