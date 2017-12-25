@@ -1,6 +1,6 @@
 ---
-layout: What I felt
-title:  "First Post"
+layout: page
+title:  Development
 date:   2017-12-21 14:38:08 +0900
 categories: jekyll update
 ---

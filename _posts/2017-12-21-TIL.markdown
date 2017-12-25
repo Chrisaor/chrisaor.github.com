@@ -1,5 +1,5 @@
 ---
-layout: Today I learned
+layout: post
 title:  "2017-12-21 TID"
 date:   2017-12-21 15:38:08 +0900
 categories: jekyll update
