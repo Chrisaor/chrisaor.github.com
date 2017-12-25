@@ -24,7 +24,7 @@ instagram_username: ch_park_best
 
 # Build settings
 markdown: kramdown
-remote_theme: Hyde
+remote_theme: hyde
 plugins:
   - jekyll-feed
 
