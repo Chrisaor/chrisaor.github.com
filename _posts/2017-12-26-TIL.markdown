@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "2017-12-26 TIL"
+date:   2017-12-26 18:30:00 +0900
+categories: TIL
+---
+
+알고리즘 연습 : 오늘 programmers에 있는 level1문제 10개를 풀었다. 내일부터 level2문제를 풀어야겠다. -끗-
