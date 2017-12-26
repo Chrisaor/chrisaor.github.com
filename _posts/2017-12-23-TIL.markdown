@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "2017-12-23 TID"
+title:  "2017-12-23 TIL"
 date:   2017-12-23 13:00:00 +0900
 categories: jekyll update
 ---
