@@ -2,7 +2,7 @@
 layout: post
 title:  "2017-12-21 TIL"
 date:   2017-12-21 15:38:08 +0900
-categories: jekyll update
+categories: TIL
 ---
 
 # 파이썬 기초

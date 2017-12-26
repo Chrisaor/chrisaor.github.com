@@ -2,7 +2,7 @@
 layout: post
 title:  "First Post"
 date:   2017-12-21 14:38:08 +0900
-categories: jekyll update
+categories: WIF
 ---
 Test
 [Click my blog][blog]
