@@ -3,4 +3,5 @@ layout: category
 title: TIL
 ---
 
-this page is for TIL
+
+<h2>TIL Archive입니다.</h2>

@@ -3,4 +3,5 @@ layout: category
 title: Life
 ---
 
-This category is about my life.
+
+<h2>그냥 생각 나는대로 적는 곳입니다.</h2>
