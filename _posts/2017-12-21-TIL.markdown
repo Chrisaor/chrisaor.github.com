@@ -1,0 +1,155 @@
+---
+layout: post
+title:  "2017-12-21 TIL"
+date:   2017-12-21 15:38:08 +0900
+categories: TIL
+---
+
+# 파이썬 기초
+
+## 오브젝트란?
+
+클래스?, 오브젝트?
+--> 객체 지향 프로그래밍에서 나온 단어
+
+객체 지향 프로그래밍이란
+- 프로그래밍으로 문제해결을 더 쉽게 하기 위해
+- 큰 프로그램의 유지보수를 편하게 하기 위해
+- 막장을 미연에 방지하기 위해
+
+오브젝트(객체)
+- 실생활에 존재하는 어떤 것
+- 상태와 행동을 가짐
+
+클랙스
+- 오브젝트를 생성하기 위한 틀(템플릿)
+- 상태와 행동을 가짐
+- 객체는 클래스의 인스턴스다
+
+Django와 object
+- Django는 많은 부분에 객체를 활용
+- Models
+- Class-based View
+
+요약
+- 클래스 : 메소드와 값을 가지는 사용자 정의 데이터 타입
+- 객체 : 클래스를 인스턴스화 한 것
+
+
+## 오브젤트 실습 1
+
+```python
+class Text:
+	def __init__(self, str): #생성자 : 초기화 할때 자동으로 실행
+		self.text = str
+	# def setText(self, str): #self = 자기 자신을 가르킴
+	# 	self.text = str
+	def __str__(self):
+		return : "Object:" self.text
+
+#Class의 object instance만들기
+t = Text("This is some text")
+print(t)
+print(t.text)
+```
+
+## 클래스 변수와 인스턴스 변수
+
+- 클래스 변수 : 모든 클래스의 인스턴스 간에 값을 공유하는 변수
+- 인스턴스 변수 : 인스턴스마다 개별적으로 다른 값을 가지는 변수 
+
+```python
+class User:
+	num_users = 0 #class variables
+	def __init__(self, name):
+		self.name = name #instance variables
+		User.num_users += 1
+
+u = User('chrisaor')
+print(User.num_users, u.name)
+u2 = User('crong')
+print(User.num_users, u2.name)
+print(User.num_users, u.num_users, u2.num_users)
+```
+
+## 오브젝트 실습2
+
+```python
+class Text:
+	def __init__(self, str): #생성자 : 초기화 할때 자동으로 실행
+		self.text = str
+	# def setText(self, str): #self = 자기 자신을 가르킴
+	# 	self.text = str
+	def __str__(self):
+		return "Text:" + self.text
+
+class User:
+	num_users = 0 #class variables
+	def __init__(self, name):
+		self.numArticle = 0
+		self.name = name #instance variables
+		self.articles = []
+		User.num_users += 1
+
+	def write(self, text):
+		self.articles.append(text)
+		self.numArticle += 1
+
+	def __str__(self):
+		return "User: %s %s" % (self.name, self.articles)
+
+t = Text("This is some text")
+t2 = Text("This is some text2")
+user = User('chrisaor')
+user.write(t)
+user.write(t2)
+print(t)
+print(user, user.numArticle)
+```
+
+## 오브젝트 실습3(상속)
+
+```python
+class Text:
+	def __init__(self, str): #생성자 : 초기화 할때 자동으로 실행
+		self.text = str
+	# def setText(self, str): #self = 자기 자신을 가르킴
+	# 	self.text = str
+	def __str__(self):
+		return "Text:" + self.text
+
+	def getLength(self):
+		return len(self.text)
+
+class Article(Text): #Article은 Text를 상속받은 자식클래스
+	def __init__(self, title, text):
+		self.title = title
+		self.text = text
+	def __str__(self):
+		return "Article %s %s" % (self.title, self.text)
+
+class User:
+	num_users = 0 #class variables
+	def __init__(self, name):
+		self.numArticle = 0
+		self.name = name #instance variables
+		self.articles = []
+		User.num_users += 1
+
+	def write(self, text):
+		self.articles.append(text)
+		self.numArticle += 1
+
+	def __str__(self):
+		return "User: %s %s" % (self.name, self.articles)
+
+t = Article("Hello", "This is some text")
+t2 = Article("World", "This is some text2")
+user = User('chrisaor')
+user.write(t)
+user.write(t2)
+print(t, t.getLength())
+print(user, user.numArticle)
+```
+
+
