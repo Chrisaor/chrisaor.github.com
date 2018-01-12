@@ -1,6 +1,6 @@
 ---
 layout: category
-title: life
+title: Edge Case
 ---
 
 This category is about my life.

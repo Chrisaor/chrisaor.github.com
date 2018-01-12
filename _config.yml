@@ -15,7 +15,7 @@ baseurl:          # the optional subpath of your site, e.g. "/blog"
 
   name:           'Julian Park'
 
-paginate:         5
+paginate:         15
 # paginate_path:    '/page:num'
                     # Or '/blog/page:num' if you want to move your index pages
 
