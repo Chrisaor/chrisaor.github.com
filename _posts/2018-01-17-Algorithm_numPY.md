@@ -1,7 +1,6 @@
-
 ---
 layout: post
-title:  "[Level1] 제일 작은 수 제거하기"
+title:  "[Level1] 문자열 내 p와 y의 개수"
 date:   2018-01-16 11:30:00 +0900
 categories: Algorythm
 ---
