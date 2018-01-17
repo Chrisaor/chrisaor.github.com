@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 스트링을 숫자로 바꾸기"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 strToInt 메소드는 String형 str을 매개변수로 받습니다.

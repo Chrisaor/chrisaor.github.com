@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 문자열 다루기 기본"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 alpha_string46함수는 문자열 s를 매개변수로 입력받습니다.

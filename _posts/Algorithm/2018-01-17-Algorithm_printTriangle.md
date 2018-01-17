@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 삼각형출력하기"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 printTriangle 메소드는 양의 정수 num을 매개변수로 입력받습니다.

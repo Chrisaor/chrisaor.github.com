@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 딕셔너리 정렬"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 딕셔너리는 들어있는 값에 순서가 없지만, 키를 기준으로 정렬하고 싶습니다. 그래서 키와 값을 튜플로 구성하고, 이를 순서대로 리스트에 넣으려고 합니다.

@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 행렬의 덧셈"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 

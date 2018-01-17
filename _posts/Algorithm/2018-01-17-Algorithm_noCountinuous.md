@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 같은 숫자는 싫어"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 

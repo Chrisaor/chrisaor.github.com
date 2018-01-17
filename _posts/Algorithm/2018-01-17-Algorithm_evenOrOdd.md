@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 짝수와 홀수"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 evenOrOdd 메소드는 int형 num을 매개변수로 받습니다.

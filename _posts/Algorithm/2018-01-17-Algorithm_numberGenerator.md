@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] x만큼 간격이 있는 n개의 숫자"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 number_generator함수는 x와 n을 입력 받습니다.

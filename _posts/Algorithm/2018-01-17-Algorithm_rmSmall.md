@@ -2,7 +2,7 @@
 layout: post
 title:  "[Level1] 제일 작은 수 제거하기"
 date:   2018-01-16 11:30:00 +0900
-categories: Algorythm
+categories: Algorithm
 ---
 
 rm_small함수는 list타입 변수 mylist을 매개변수로 입력받습니다.
