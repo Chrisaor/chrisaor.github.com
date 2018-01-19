@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[Easy] Reverse words in a given string"
-date:   2018-01-18 13:30:00 +0900
+date:   2018-01-19 13:30:00 +0900
 categories: Algorithm
 ---
 
