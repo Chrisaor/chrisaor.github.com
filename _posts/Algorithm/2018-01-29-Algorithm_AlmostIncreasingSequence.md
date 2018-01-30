@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Stage 6] Almost Increasing Sequence"
+title:  "[Stage 7] Almost Increasing Sequence"
 date:   2018-01-29 10:05:00 +0900
 categories: Algorithm
 ---
