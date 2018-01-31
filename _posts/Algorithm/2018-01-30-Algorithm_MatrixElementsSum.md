@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Stage 8] Matrix Elemetns Sum"
+title:  "[Stage 8] Matrix Elements Sum"
 date:   2018-01-30 10:05:00 +0900
 categories: Algorithm
 ---
