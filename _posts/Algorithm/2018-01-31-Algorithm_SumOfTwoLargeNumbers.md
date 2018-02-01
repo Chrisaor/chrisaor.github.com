@@ -5,7 +5,6 @@ date:   2018-01-31 15:15:00 +0900
 categories: Algorithm
 ---
 
-
 Given two non-negative numbers X and Y. The task is calculate the sum of X and Y.
 
 **Input:**
