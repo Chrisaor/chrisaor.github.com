@@ -20,12 +20,12 @@ For each test case, if the number of digits in sum (X+Y) are equal to the number
 1<=|Number length |<=100  
 
 **Example:**  
-**Input:**
+**Input:**  
 2  
 25 23  
 3 5  
 
-Output:  
+**Output:**  
 48  
 8  
 
