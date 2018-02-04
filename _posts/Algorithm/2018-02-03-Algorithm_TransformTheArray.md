@@ -4,6 +4,7 @@ title:  "[Easy] Transform the array"
 date:   2018-02-03 10:15:00 +0900
 categories: Algorithm
 ---
+[Transform The Array 풀어보기](https://practice.geeksforgeeks.org/problems/transform-the-array/0/?ref=self)
 
 Given an array containing integers, zero is considered an invalid number and rest all other numbers are valid. If two nearest valid numbers are equal then double the value of the first one and make the second number as 0. At last move all the valid numbers on the left.
 
