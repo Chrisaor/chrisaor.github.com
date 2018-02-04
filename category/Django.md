@@ -1,4 +1,4 @@
 ---
 layout: category
-title: II. Django
+title: Django
 ---

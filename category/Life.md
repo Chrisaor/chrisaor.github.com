@@ -1,6 +1,6 @@
 ---
 layout: category
-title: V. Life
+title: Life
 ---
 
 

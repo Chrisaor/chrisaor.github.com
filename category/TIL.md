@@ -1,6 +1,6 @@
 ---
 layout: category
-title: I. TIL
+title: TIL
 ---
 
 
