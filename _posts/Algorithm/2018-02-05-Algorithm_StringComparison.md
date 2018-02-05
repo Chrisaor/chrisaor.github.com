@@ -5,7 +5,7 @@ date:   2018-02-05 10:15:00 +0900
 categories: Algorithm
 ---
 
-
+[https://practice.geeksforgeeks.org/problems/string-comparison/0/?ref=self](https://practice.geeksforgeeks.org/problems/string-comparison/0/?ref=self)
 
 In a native language the increasing order of priority of characters is a, b, c, d, e, f, g, h, i, j, k, l, m, n, ’ng’ , o, p, q, r, s, t, u, v, w, x, y, z. You are given two strings string1 and string2 and your task is to compare them on the basis of the given priority order.
 
