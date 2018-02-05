@@ -26,7 +26,7 @@ For each test case, print the required output in a new line.
 
 1 <= T <= 1000
 
-1 <= |string1, string2| <= 10^8 
+1 <= \|string1, string2\| <= 10^8 
  
 
 **Example:**
