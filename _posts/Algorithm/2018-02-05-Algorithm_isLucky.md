@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[Stage 11] Is Lucky?"
-date:   2018-02-03 10:15:00 +0900
+date:   2018-02-05 11:15:00 +0900
 categories: Algorithm
 ---
 
