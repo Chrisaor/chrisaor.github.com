@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Level 10] Common Character Count"
+title:  "[Stage 10] Common Character Count"
 date:   2018-02-02 10:15:00 +0900
 categories: Algorithm
 ---

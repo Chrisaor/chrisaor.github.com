@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Level 12] Sorted by Height"
+title:  "[Stage 12] Sorted by Height"
 date:   2018-02-07 10:15:00 +0900
 categories: Algorithm
 ---
