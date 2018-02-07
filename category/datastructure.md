@@ -1,4 +1,5 @@
 ---
 layout: category
-title: datastructure
+title: Data structure
+category: datastructure
 ---
