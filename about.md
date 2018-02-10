@@ -14,7 +14,6 @@ Julian Park입니다. 현재 웹 프로그래밍을 공부하며 웹 개발자�
 
 
 
-It's Julian Park. I'm interested in Web programming field.
-I'm here for writing how my study goes on and some stuffs about my life.
+It's Julian Park. I’m interested in the Web programming field. I’m here for writing about how my study goes on and some stuff about my life.
 
-I really love to challenge. The biggest challenge is being persistent into one behavior.
+I really love to challenge myself. The biggest challenge is being persistent into one behavior.
