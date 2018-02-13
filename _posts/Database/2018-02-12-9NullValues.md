@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "SQL 강좌 10.SQL NULL Values"
-date:   2018-02-12 10:20:00 +0900
+title:  "SQL 강좌 9.SQL NULL Values"
+date:   2018-02-12 10:15:00 +0900
 categories: database
 ---
 
