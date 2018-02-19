@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Stage 13] Reverse Parentheses"
+title:  "[Basic] Check if two arrays are equal or not"
 date:   2018-02-08 10:15:00 +0900
 categories: Algorithm
 ---
