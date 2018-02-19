@@ -140,6 +140,7 @@ Manage는 모델에 대한 QuerySets의 주요 소스이다. 예를 들어 Blog.
 
 all()메소드는 데이터베이스에 있는 모든 객체의 QuerySet을 반환한다.
 
+--
 ### Retrieving specific objects with filters
 
 all()에 의해 반환된 QuerySet은 데이터베이스 테이블의 모든 객체를 표시한다. 그러나 일반적으로 객체의 전체 집합중 일부만 선택하는게 보통이다.
@@ -182,6 +183,7 @@ QuerySet을 정제한 결과는 QuerySet 그 자체이므로 상세 검색을 �
 이것은 데이터베이스의 모든 entry들에 대한 초기 QuerySet을 가져와서 필터를 추가한 다음 제외하고 다른 필터를 추가한다.
 최종 결과는 2005년 1월 30일과 현재 날짜 사이에 게시된 "What"으로 시작하는 모든 entry를 포함하는 QuerySet이다.
 
+--
 ### Filtered QuerySets are unique
 
 QuerySet을 정제할 때마다, 이전의 생성된 QuerySet과는 독립적인 새로운 QuerySet을 갖게된다. 각각의 상세검색은 저장되고 사용되며 재사용될 수 있는 별개의 고유한 QuerySet을 생성한다.
@@ -194,7 +196,7 @@ QuerySet을 정제할 때마다, 이전의 생성된 QuerySet과는 독립적인
 
 이 세 가지 QuerySet은 각각 별개이다. 첫 번째는 "What"으로 시작하는 제목의 모든 entry들을 나타내는 QuerySet이다. 두 번째는 첫 번째 항목의 하위 집합이며 pub_date가 현재 또는 미래의 레코드를 제외하는 조건이 추가된 검색이다. 세 번째 또한 첫 번째 항목의 하위 집합이며 pub_date가 현재 또는 미래의 레코드만 선택하는 추가 조건이 있다. 초기의 QuerySet(q1)은 데이터가 정제되는 프로세스의 영향을 받지 않는다.
 
-
+--
 ### QuerySets are lazy
 
 QuerySet은 게으르다 - QuerySet을 생성하는 행위는 어떤 데이터베이스 활동도 포함하지 않는다. 하루 종일 필터를 함께 쌓을 수 있으며, 장고는 QuerySet이 평가 될 때까지 실제로 쿼리를 실행하지 않는다.
@@ -208,6 +210,7 @@ QuerySet은 게으르다 - QuerySet을 생성하는 행위는 어떤 데이터�
 
 위 예제는 3번의 데이터베이스에 접근하는 것 처럼 보이지만 마지막 행(print(q))에서 데이터베이스에 한번만 접근한다. 일반적으로 QuerySet의 결과는 사용자가 **"요청"**할 때까지 데이터베이스에서 가져오지 않는다.
 
+--
 ### Retrieving a single object with get()
 
 filter()는 하나의 객체만이 query와 일치하는 경우에도 항상 QuerySet을 제공한다. 이 경우 한 개의 원소만이 들어있는 QuerySet이 될 것이다.
@@ -228,10 +231,12 @@ get()을 사용하는 것과 [0] 슬라이스로 filter()를 사용하는 것의
 
 한마디로 get() 메소드를 사용할 때는 꼭 한개의 확실한 값만 가져와야 한다는 뜻
 
+--
 ### Other QuerySet methods
 
 대부분 데이터베이스에서 객체를 검색해야 할 때 all(), get(), filter() 및 exclude()를 사용한다. 그러나 그것은 거기있는 모든 것과는 거리가 멀다. QuerySet메소드의 전체 목록은 [QuerySet API 레퍼런스](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#queryset-api)를 참조해라.
 
+--
 ### Limiting QuerySets
 
 Python의 문자열 슬라이스 구문의 하위집합을 사용하여 QuerySet을 특정 수의 결과로 제한할 수 있다. SQL의 LIMIT 및 OFFSET절과 같다.
@@ -274,6 +279,7 @@ Python의 문자열 슬라이스 구문의 하위집합을 사용하여 QuerySet
 
 만약에 일치하는 개체가 없는 경우 여기서 첫 번째 구문은 IndexError를 발생시키고 두 번째 구문은 DoesNotExist를 발생시킬 것이다. 자세한 내용은 [get()](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#django.db.models.query.QuerySet.get)을 참조.
 
+--
 ### Field lookups
 
 필드 검색은 SQL WHERE절에서 중요한 부분을 어떻게 명시하는지에 관한 것이다. 그것들은 QuerySet 메소드 filter(), exclude() 및 get()에 대한 키워드 인자로 지정된다.
@@ -355,6 +361,7 @@ case-insensitive 버전으로 **icontains**를 사용하면 된다.
 
 또다른 검색 방법으로 **startswith**, **endswith** 그리고 대소문자 구분 없는 **istartswith**, **iendswith**이 있다. 
 
+--
 ### Lookups that span relationships
 
 장고는 자동으로 SQL JOIN을 처리하면서 조회시 관계들을 따르는 강력하고 직관적인 방법을 제공한다.
@@ -449,3 +456,7 @@ Blog.objects.exclude(
     ),
 )
 ```
+
+--
+### Filters can reference fileds on the model
+
