@@ -794,5 +794,124 @@ detail.save()
 
 때로는 QuerySet의 모든 객체에 대해 필드를 특정 값으로 설정하고 싶을 수도 있다. update() 메소드를 사용하면 된다.
 
+```python
+# pub_date가 2007년인 모든 헤드라인을 업데이트함
+Entry.objects.filter(pub_date__year=2007).update(headline='Everything is the same')
+```
+
+이 방법을 사용하여 비 관계 필드(non-relation fields)와 ForeignKey필드만 설정할 수 있다. 비 관계 필드를 업데이트하려면 새 값을 상수로 제공해야한다. ForeignKey필드를 업데이트하려면 새 값을 가리킬 새 모델 인스턴스로 설정해라.
+
+```
+>>> b = Blog.objects.get(pk=1)
+
+# b(Blog객체)에 속하도록 모든 entry를 업데이트함
+>>> Entry.objects.all().update(blog=b)
+```
+
+update() 메소드는 즉시 적용되며 쿼리와 일치하는 행의 수를 반환한다. (일부 행에 이미 새 값이 있는 경우 업데이트된 행 수와 다를 수 있다)
+
+업데이트 되는 QuerySet에 대한 유일한 제한은 하나의 데이터베이스 테이블(모델의 메인 테이블)에만 액세스 할 수 있다는 것이다.
+
+관련 필드를 기준으로 필터링할 수 있지만 모델의 메인 테이블의 column만 업데이트 할 수 있다.
+
+```
+>>> b = Blog.objects.get(pk=1)
+
+# 이 블로그에 속한 모든 헤드라인을 업데이트한다
+>>> Entry.objects.select_related().filter(blog=b).update(headline='Everything is the same')
+```
+
+update()메소드는 SQL문으로 직접 변환된다. 직접 업데이트를 위한 대량 작업이다.
+
+모델에서 save() 메소드를 실행하지 않거나, save()를 호출한 결과인 pre_save 또는 post_save 시그널은 내보내거나, auto_now필드 옵션을 사용한다.
+
+QuerySet의 모든 항목을 저장하고 각 인스턴스에서 save()메소드가 호출되도록 하는 특별한 함수는 없다. 그냥 반복문으로 불러와서 save()해야한다.
+
+```python
+for item in my_queryset:
+	item.save()
+```
+
+업데이트 호출은 F 식을 사용하여 모델의 다른 필드 값을 기반으로 한 필드를 업데이트 할 수도 있다.
+
+이것을 현재 값을 기반으로 카운터를 증가시킬 때 특히 유용하다. 예를 들어, 블로그의 모든 entry에 대해 pingback의 수를 늘리려면 다음과 같이 한다.
+
+```
+>>> Entry.objects.all().update(n_pingbacks=F('n_pingbacks') + 1)
+```
+
+그러나, filter나 exclude절에서의 F()객체와 달리 업데이트에서 F()객체를 사용할 때 join을 도입할 수는 없다. 업데이트 중인 모델의 로컬 필드만 참조할 수 있다.
+
+F() 객체를 사용하여 조인을 진행하려고 하면 FieldError가 발생한다.
+
+```
+# FieldError가 발생하는 예제
+>>> Entry.objects.update(headline=F('blog__name'))
+```
+
+## Related objects
+
+ForeignKey, OneToOneField 또는 ManyToManyField같은 모델에서 관계를 정의하면 해당 모델의 인스턴스는 관련 객체에 액세스하기 위한 편리한 API를 갖게된다.
+
+예를 들어, Entry객체 e는 블로그 속성인 e.blog에 액세스하여 관련 Blog객체를 가져올 수 있다. (이면에서는 이 기능은 파이썬 descriptor에 의해 구현된다)
+
+장고는 관계의 "다른" 측면인 관련 모델에서 관계를 정의하는 모델에 대한 링크인 API accessors를 만든다.
+
+예를 들어, Blog객체 b는 entry_set 속성(b.entry_set.all())을 통해 관련된 모든 Entry객체의 목록에 액세스할 수 있다.
+
+### One-to-many relationships
+
+**Forward**
+
+모델에 ForeignKey가 있는 경우, 해당 모델의 인스턴스는 모델의 단순 속성을 통해 관련(foreign) 객체에 액세스할 수 있다.
+
+예:
+
+```
+>>> e = Entry.objects.get(id=2)
+>>> e.blog # 관련된 Blog객체를 반환
+```
+
+외부 키 속성을 통해 가져오고 설정할 수 있다. 예상하다시피, foreign key에 대한 변경 사항은 save()를 호출할 때까지 데이터베이스에 저장되지 않습니다.
+
+예:
+
+```
+>>> e = Entry.objects.get(id=2)
+>>> e.blog = some_blog
+>>> e.save()
+```
+
+ForeignKey 필드가 nul=True로 설정되어 있으면 (즉, NULL값을 허용하는 경우) None을 할당하여 관계를 제거할 수 있습니다.
+
+예:
+
+```
+>>> e = Entry.objects.get(id=2)
+>>> e.blog = None
+>>> e.save() # "UPDATE blog_entry SET blog_id = NULL ...;"
+```
+
+관련 객체에 처음 액세스할 one-to-many관계에 전달 액세스(forward access)가 캐시된다. 동일한 객체 인스턴스에서 foreign key에 대한 후속 엑세스가 캐시된다.
+
+예:
+
+```
+>>> e = Entry.objects.get(id=2)
+>>> print(e.blog) # 데이터베이스를 조회하여 연결된 블로그를 검색함
+>>> print(e.blog) # 데이터베이스를 조회하지 않고 캐시에서 가져옴
+```
+
+select_related() QuerySet 메소드는 모든 one-to-many 관계의 캐시를 미리 재귀로 채운다.
+
+예:
+
+```
+>>> e = Entry.objects.select_related().get(id=2)
+>>> print(e.blog) # 캐시에서 가져옴
+>>> print(e.blog) # 캐시에서 가져옴
+```
+
+
 
 
