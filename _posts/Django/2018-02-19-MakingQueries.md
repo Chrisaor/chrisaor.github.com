@@ -625,7 +625,7 @@ from django.db.models import Q
 Q(question__startswith='What')
 ```
 
-Q객체는 &와 |를 사용하여 결합될 수 있다. 연산자가 두개의 Q객체에 사용되면 새로운 Q객체가 생성된다.
+Q객체는 &와 \|를 사용하여 결합될 수 있다. 연산자가 두개의 Q객체에 사용되면 새로운 Q객체가 생성된다.
 
 예를 들어 이 구문은 두개의 "question__startswith"쿼리의 OR을 나타내는 하나의 Q객체를 생성한다.
 
@@ -912,6 +912,186 @@ select_related() QuerySet 메소드는 모든 one-to-many 관계의 캐시를 �
 >>> print(e.blog) # 캐시에서 가져옴
 ```
 
+--
+
+### following relationship "backward"
+
+모델에 ForeignKey가 있는 경우 foreign-key 모델의 모든 인스턴스를 반환하는 Manager에 액세스 할 수 있다. 기본적으로, Manager의 이름은 FOO_set이다. 여기서 FOO는 소문자로 된 모델의 이름이다. 이 Manager는 위의 "Retrieving objects" 섹션에서 설명한 것처럼 필터링하고 조작할 수 있는 QuerySet들을 반환한다.
+
+예:
+
+```
+>>> b = Blog.objects.get(id=1)
+>>> b.entry_set.all() # Blog에 걸려있는 모든 Entry객체들을 반환
+
+# b.entry_set은 QuerySet을 반환하는 Manager
+>>> b.entry_set.filter(headline__contains='Lennon')
+>>> b.entry_set.count()
+```
+
+ForeignKey 정의에서 related_name 매개변수를 설정하여 FOO_set으로 된 이름을 바꿀 수 있다. 예를 들어 Entry모델이 blog=ForeignKEy(Blog, on_delete=models.CASCADE, related_name='entries')로 변경된 경우 위에서 봤던 예제 코드는 이렇게 될 것이다.
+
+```
+>>> b = Blog.objects.get(id=1)
+>>> b.entries.all() # Blog에 걸려있는 모든 Entry객체들을 반환
+
+# b.entries 는 QuerySet을 반환하는 Manager
+>>> b.entries.filter(headline__contains='Lennon')
+>>> b.entries.count()
+```
+
+--
+
+### Using a custom reverse manager
+
+기본적으로 역 관계에 사용되는 RelatedManager 해당 모델의 기본 관리자의 하위 클래스다. 특정 쿼리에 대해 다른 관리자를 지정하려면 다음 구문을 사용하면 된다.
+
+```python
+from django.db import models
+
+class Entry(models.Model):
+    #...
+    objects = models.Manager()  # 기본 Manager
+    entries = EntryManager()    # 사용자정의 Manager
+
+b = Blog.objects.get(id=1)
+b.entry_set(manager='entries').all()
+```
+
+EntryManager가 get_queryset()메소드에서 기본 필터링을 수행하면 해당 필터링이 all()호출에 적용된다.
+
+물론, 사용자정의 reverse manager를 지정하면 사용자정의 메소드를 호출 수 있다.
+
+```
+b.entry_set(manager='entries').is_published()
+```
+
+--
+
+### Additional methods to handle related objects
+
+위 "Retrieving objects"에서 정의된 QuerySet 메소드에 더하여, ForeignKey Manager에는 관련된 오브젝트 셋을 다루기 위한 다음과 같은 메소드가 추가됨. 
+
+**add(obj1, obj2, ...)**    
+지정된 모댈 객체를 관련 객체 셋에 추가함
+
+**create(\*\*kwargs)**  
+새 객체를 만들어 저장하고 관련 객체 셋에 넣는다. 새롭게 생성된 객체를 반환한다.
+
+**remove(obj1, obj2)**  
+관련 객체 셋에 지정된 모델 객체를 삭제함
+
+**clear()**  
+관련 객체 셋에서 모든 객체를 제거함
+
+**set(objs)**
+관련 객체 셋을 대체함
+
+관련 셋의 멤버를 할당하려면 반복가능한 객체 인스턴스 또는 primary key 값 목록에 set()메소드를 사용해라.
+
+```python
+b = Blog.objects.get(id=1)
+b.entry_set.set([e1, e2])
+```
+
+이 예제에서, e1과 e2는 완전한 Entry인스턴스이거나 정수로된 primary key값이 될 수 있다.
+
+clear()메소드를 사용할 수 있는 경우, iterable의 모든 객체(위 예제에서는 list)가 추가되기전에 기존 객체가 entry_set에서 제거된다.
+
+clear()메소드를 사용할 수 없는 경우, iterable의 모든 객체가 기존 요소를 제거하지 않고 그냥 추가된다.
+
+이 섹션에서 설명하는 각 "역방향" 작업은 데이터베이스에 즉각 영향을 준다. 모든 추가, 생성 및 삭제가 즉시 자동으로 데이터베이스에 저장됨.
+
+--
+
+### Many-to-many relationships
+
+MTM관계의 양끝은 다른 쪽 끝으로 자동 API 액세스를 얻는다. API는 위의 "역방향" OTM(one-to-many)관계와 동일하게 작동한다.
+
+유일한 차이점은 속성 이름을 지정하는 데에 있다. ManyToManyField를 정의하는 모델은 해당 필드 자체의 속성 이름을 사용하지만 반면 "역방향"모델은 원래 모델의 소문자 모델 이름에 '_set' 추가하면된다.(역방향 OTM관계와 같은 방식으로)
+
+이해를 도울 수 있는 예제는 다음과 같다.
+
+```python
+e = Entry.objects.get(id=3)
+e.authors.all() # Entry에 대한 모든 Author객체를 반환한다
+e.authors.count()
+e.authors.filter(name__contains='John')
+
+a = Author.objects.get(id=5)
+a.entry_set.all() # 이 Author에 대한 모든 Entry객체를 반환한다
+```
+
+FK(Foreignkey)와 마찬가지로 ManyToManyField는 related_name을 지정할 수 있다. 위의 예에서는 Entry의 ManyToManyField가 related_name = 'endtries'를 지정한 경우 각 Author 인스턴스는 entry_set 대신 entries 속성을 갖는다.
+
+--
+
+### One-to-one relationships
+
+OTO(one-to-one)관계는 MTO(many-to-one)와 비슷하다. 모델에 OneToOneField를 정의하면 해당 모델의 인스턴스는 모델의 단순 속성을 통해 관련 객체에 액세스 할 수 있다.
+
+```python
+class EntryDetail(models.Model):
+    entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    details = models.TextField()
+
+ed = EntryDetail.objects.get(id=2)
+ed.entry # 관련 Entry객체를 반환한다
+```
+
+차이점은 "역"쿼리에서 보인다. OTO관계 관련 모델도 Manager 객체에 액세스 할 수 있지만 Manager는 객체 집합이 아닌 단 한개의 객체만을 나타낸다.
+
+```
+e = Entry.objects.get(id=2)
+e.entrydetail # 관련 EntryDetail 객체를 반환함
+```
+
+이 관계에 객체가 할당되어 있지 않으면 장고는 DoesNotExist 예외를 발생시킨다. 전달 관계를 지정하는 것과 같은 방법으로 인스턴스를 역 관계에 지정할 수 있다.
+
+```
+e.entrydetail = ed
+```
+
+--
+
+### How are the backward relationships possible?
+
+다른 객체 관계형 mapper에서는 양측에 관계를 정의해야한다. 장고 개발자는 이를 DRY(Do not Repeat Yourself)원칙을 위반한다고 생각하므로 장고에서는 한쪽에서 관계를 정의하는 것만으로 충분하도록 만들었다.
+
+그러나 모델 클래스가 다른 모델 클래스가 로드 될 때까지 어떤 다른 모델 클래스가 이 모델 클래스와 관련되어 있는지 모른다면 어떻게 할까?
+
+대답은 [app_registry](https://docs.djangoproject.com/en/2.0/ref/applications/#django.apps.apps)에서 확인할 수 있다. 장고가 시작되면 INSTALLED_APPS에 나열된 각 응용 프로그램을 가져온 다음 각 응용 프로그램 내부에 models 모듈을 가져온다.
+
+새로운 모델 클래스가 생성될 때마다 장고는 모든 관련 모델에 역방향 관계를 추가한다. 관련 모델을 아직 가져오지 않은 경우는 장고는 관련 모델을 가져올 때 관계의 트랙을 유지하고 추가한다.
+
+이러한 이유로 INSTALLED_APPS에 나열된 앱에서 사용중인 모든 모델을 정의하는 것이 특히 중요하다. 그렇지 않으면 후방 관계가 제대로 작동하지 않을 수 있다.
+
+--
+
+### Queries over related objects
+
+관련 객체를 포함하는 쿼리는 일반 값 필드가 포함된 쿼리와 동일한 규칙을 따른다. 매치시킬 쿼리의 값을 지정할 때 객체 인스턴스 자체나 객체의 기본 키 값을 사용할 수 있다.
+
+예를 들어 id=5를 가지고 있는 Blog객체 b가 있다고 하면 다음 3개의 쿼리는 각각 같은 의미를 나타낸다.
+
+```
+Entry.objects.filter(blog=b) # 객체 인스턴스를 이용한 쿼리
+Entry.objects.filter(blog=b.id) # 인스턴스의 아이디를 이용한 쿼리
+Entry.objects.filter(blog=5) # 직접 아이디를 이용한 쿼리
+```
+
+
+
+## Falling back to raw SQL
+
+장고가 처리하기엔 어려운 매우 복잡한 SQL쿼리를 작성해야한다면 수동으로 SQL을 작성할 수 있다. 장고는 raw SQL쿼리를 작성하기 위한 몇가지 옵션이 있다. [Performing raw SQL queries를 참고](https://docs.djangoproject.com/en/2.0/topics/db/sql/)
+
+마지막으로 Django 데이터베이스 레이어는 단지 데이터베이스에 대한 인터페이스다. 다른 툴,  언어 또는 데이터베이스 프레임워크를 통해 데이터베이스에 액세스할 수 있다. 데이터베이스를 다루는데 장고만의 그런건 없다.
+
+
+---
+
+**2018.02.24 장고 MakingQueries 문서 번역 끝**
 
 
 
