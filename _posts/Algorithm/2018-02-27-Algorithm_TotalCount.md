@@ -61,8 +61,6 @@ def total_count(key, arr):
             cnt += arr[i]//key + 1
     return cnt
 
-key = 3
-arr = [5, 8, 10, 13, 6, 2]
 
 t = int(input())
 for i in range(t):

@@ -1,9 +1,11 @@
 ---
 layout: post
-title:  "Django Documentation 2. Making queries"
+title:  "[The model layer] 2-1. Making queries"
 date:   2018-02-19 11:30:00 +0900
 categories: django
 ---
+
+구글 번역의 도움을 (많이) 받아 장고 공식 문서를 번역하였습니다.
 
 # Making queries
 
