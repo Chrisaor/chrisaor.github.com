@@ -111,8 +111,80 @@ class Student(models.Model):
 
 True로 설정하면 필드에 대해 데이터베이스 인덱스가 생성된다.
 
+---
+
+### db_tablespace
+
+**Field.db_tablespace**
+
+이 필드의 index가 작성될 경우, 이 필드의 index에 사용할 데이터베이스 tablespace의 이름을 지정한다. 기본값은 프로젝트의 DEFAULT\_INDEX\_TABLESPACE 또는 모델의 db_tablespace이다. 백엔드가 인덱스의 tablespace를 지원하지 않으면 이 옵션은 무시됨
+
+---
+
+### default
+
+**Field.default**
+
+필드의 기본값을 지정함. 값 또는 호출 가능한 객체일 수 있다. 호출 가능한 객체의 경우 객체가 생성될 때마다 호출될 것이다.
+
+기본 값은 변경 가능한 객체(모델 인스턴스, 리스트, 셋 등)일 수 없다. 이는 해당 객체의 동일한 인스턴스에 대한 참조가 모든 새 모델 인스턴스에서 기본 값으로 사용되기 때문이다. 
+
+대신, 원하는 기본 값을 호출 가능한 코드로 감싸면 된다. 예를 들어 JSONField의 기본 dict를 지정하려면 다음 함수를 이용한다.
+
+```python
+def contact_default():
+	return {"email": "to1@example.com"}
+	
+contact_info = JSONField("ContactInfo", default = contact_default)
+```
+
+**lambda**는 [마이그레이션에 의해 직렬화](https://docs.djangoproject.com/en/2.0/topics/migrations/#migration-serializing) 될 수 없기 때문에 default와 같은 필드 옵션에 사용될 수 없다. 
+
+모델 인스턴스에 매핑되는 ForeignKey와 같은 필드의 경우 기본값은 모델 인스턴스 대신 참조하는 필드 값(to_field가 설정되지 않은 경우 pk)이어야한다.
+
+기본 값은 새 모델 인스턴스가 만들어지고 값이 필드에 제공되지 않을 때 사용된다. 필드가 primary key인 경우, 필드가 없음으로 설정된 경우 기본값이 사용된다.
+
+---
+
+### error_messages
+
+**Field.error_messages**
+
+error_messages 인수를 사용하면 필드에서 발생시키는 기본 메세지를 대체할 수 있다. 덮어쓰려는 오류 메시지와 일치하는 key가 있는 dict를 전달해야한다.
+
+오류 메시지 키에는 null, blank, invalid, invalid_choice, unique 및 unique_for_date가 포함된다. 추가 오류 메시지 키는 아래 필드 유형 섹션의 각 필드에 지정된다.
+
+이러한 오류 메시지는 form에 전달되지 않는 경우가 많다. [Conisderations regarding model's error_messages](https://docs.djangoproject.com/en/2.0/topics/forms/modelforms/#considerations-regarding-model-errormessages)를 참조
+
+---
+
+### help_text
+
+**Field.help_text**
+
+폼 위젯과 함께 표시되는 '도움말'텍스트. 필드가 폼에 사용되지 않아도 문서화할 때 유용하다.
+
+이 값은 자동 생성된 폼에서 HTML 이스케이프 처리되지 않는다. 원하는 경우 help_text에 HTML을 포함시킬 수 있다. 
+
+```
+help_text="Please use the following format: <em>YYYY-MM-DD</em>."
+```
+
+또는 일반 텍스트와 django.utils.html.escape()를 사용하여 HTML 특수 문자를 이스케이프 처리할 수 있다. cross-site scripting attack을 피하기 위해 신뢰할 수 없는 사용자의 도움말 텍스트를 이스케이프 해야한다.
+
+---
+
+### primary_key
+
+**Field.primary_key**
+
+True로 설정하면 해당 필드는 모델의 primary key가 된다.
+
+모델의 모든 필드에 대해 primary_key = True를 지정하지 않으면 장고는 primary key를 보유할 자동 필드를 자동으로 추가한다. 따라서 primary key 동작을 덮어쓰려고 하지 않는 한 굳이 설정할 필요 없다. [Automatic primary key fields](https://docs.djangoproject.com/en/2.0/topics/db/models/#automatic-primary-key-fields) 참조
+
+primary_key = True로 설정하는 것은 null = False 및 unique = True를 의미한다. 한 객체에는 오직 하나의 primary key만이 허용된다.
+
+primary key 필드는 읽기 전용이다. 기존 객체의 primary key 값을 변경한 다음에 저장하면 새로운 키 값이 생성된다.
 
 
 
-
- 
