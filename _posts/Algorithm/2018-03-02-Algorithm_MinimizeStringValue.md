@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Easy] Minimize string value"
+title:  "[Basic] Minimize string value"
 date:   2018-03-02 11:20:00 +0900
 categories: Algorithm
 ---
