@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[The model layer] 1-2. Model field reference"
+title:  "[Project] 1-2. Model field reference"
 date:   2018-02-28 11:30:00 +0900
 categories: django
 ---
