@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[The model layer] 2-1. Making queries"
+title:  "[The model layer] Making queries"
 date:   2018-02-19 11:30:00 +0900
 categories: django
 ---
