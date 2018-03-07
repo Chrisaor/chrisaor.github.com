@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "[Forms] Overview"
+date:   2018-03-07 11:30:00 +0900
+categories: django
+---
+
+구글 번역의 도움을 (많이) 받아 장고 공식 문서를 번역하였습니다.
+
+# Working with forms
+
+> 이 문서는 웹 폼의 기본적인 내용과 장고에서 어떻게 사용되는지 소개한다. Form API의 자세한 내용은 [The Forms API](https://docs.djangoproject.com/en/2.0/ref/forms/api/), [Form and field validation](https://docs.djangoproject.com/en/2.0/ref/forms/validation/)을 참고
+
+콘텐츠를 게시하는 것만 가능한 웹사이트를 개발하는 목적이 아니라면 form을 이해하고 사용해야한다. 
+
+장고는 사이트 방문자로부터 입력을 받아 양식을 작성한 다음 입력을 처리하고 응답하는데 도움이되는 다양한 도구와 라이브러리를 제공한다.
+
+## HTML forms
+
+HTML에서 form은 방문자가 텍스트 입력, 옵션 선택, 객체 또는 컨트롤 조작 등과 같은 작업을 수행할 수 있는 <form>...</form>내의 요소 모음이다. 이렇게 수행된 작업을 서버로 보내주는 역할을 한다.
+
+이러한 양식 인터페이스 요소 중 일부(텍스트 입력, 확인란)는 매우 간단하며 HTML 자체에 내장되어 있다. 날짜 선택을 하거나 슬라이더를 이동하는 인터페이스는 일반적으로 HTML form <input>요소와 자바스크립트 및 CSS를 사용해서 효과를 얻을 수 있다.
+
+<input> 요소 뿐만 아니라 form도 두 가지를 지정해야한다.  
+
+- where : 사용자의 입력에 해당하는 데이터가 반환되어야 하는 URL
+- how : 데이터가 어떻게 반환되어야 하는지에 대한 HTTP method
+
+예를 들어, 장고 관리자의 로그인 form은 여러 개의 <input>요소를 포함합니다. 하나는 사용자 이름의 type='text', password는 type='password', 다른  로그인 버튼의 type='submit'이다. 또 사용자가 볼 수 없는 몇 가지 숨겨진 텍스트 필드가 포함되어 있으며 이는 장고가 다음에 수행할 작업을 결정할 때 사용한다.
+
+또한 폼 데이터가 <form>의 action속성 -/admin/-에 지정된 URL로 보내져야하며 메소드 속성 -post에 지정된 HTTP 메커니즘을 사용하여 보내야한다고 브라우저에 알린다.
+
+\<input type='submit' value='Log in'> 요소가 트리거되면 데이터는 /admin/로 리턴된다.
+
+### GET and POST
+
+**GET**과 **POST**는 폼을 다룰 때 사용할 수 있는 유일한 HTTP 메소드이다.
+
+장고의 로그인 폼은 **POST**메소드를 사용하여 반환된다. **POST**메소드는 브라우저가 form 데이터를 묶어서 전송하기 위해 인코딩하고 서버로 보낸 후 그에 대한 응답을 수신한다.
+
+반대로 **GET**은 제출된 데이터를 문자열로 묶어 URL을 작성하는 데 사용된다. URL에는 데이터를 전송해야하는 주소는 물론 데이터와 키와 값도 포함된다. 장고 문서에서 무언가를 찾으려 클릭하면 http://docs.djangoproject.com/search/?q=forms%release=1 형식의 URL이 생성되는 것을 볼 수 있다.
+
+**GET**과 **POST**는 일반적으로 다른 목적으로 사용된다.
+
+시스템의 상태를 변경하는 데 사용할 수 있는 요청(예: DB변경)은 **POST**를 사용해야한다. **GET**은 시스템 상태에 영향을 주지 않는 요청에만 사용해야한다.
+
+**GET**은 비밀번호 form에 적합하지 않다. 비밀번호가 URL에 표시되고 브라우저 기록 및 서버로그에도 일반 텍스트로 표시되기 때문이다. 대량의 데이터나 이미지와 같은 바이너리 데이터에도 적합하지 않다. admin form에 **GET**요청을 사용하는 웹 어플리이션은 보안에 위험이 있다. 공격자가 시스템의 민간함 부분에 액세스하기 위해 form의 요청을 모방하는 것이 쉬워진다. POST는 장고의 [CSRF protection](https://docs.djangoproject.com/en/2.0/ref/csrf/)과 같은 다른 보호 기능과 결합되어 액세스를 보다 효율적으로 제어한다.
+
+반면 **GET** 요청을 나타내는 URL은 북마크, 공유 그리고 다시제출하기 같은 것이 쉽게 가능하기 때문에 **GET**은 웹 서치 form같은 것에 적합하다. 
+
+## Django's role in forms
+
