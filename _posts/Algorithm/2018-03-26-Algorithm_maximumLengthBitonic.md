@@ -140,4 +140,5 @@ for i in range(t):
     print(bitnoic_subarr(arr))
 ```
 
-첫 Medium레벨 성공
+첫 Medium레벨 성공!  
+비효율적인 코드지만 성공을 축하!
