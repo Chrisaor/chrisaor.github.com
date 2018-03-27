@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Basic]  "
+title:  "[Basic] Rearrange Array Alternately"
 date:   2018-03-23 11:45:00 +0900
 categories: Algorithm
 ---
@@ -36,22 +36,30 @@ Numbers in the required form are displayed to the user.
 
 
 ```python
-def rearrange_array(arr):
-    rearray = list()
-    for i in range(len(arr)):
-        if i % 2 == 0:
-            num = arr.pop()
-            rearray.append(num)
-        else:
-            num = arr[0]
-            del arr[0]
-            rearray.append(num)
-    return ' '.join(map(str, rearray))
+def find_all_pairs(A,B,x):
+    temp = list()
+    answer = list()
+    for i in range(len(A)):
+        for j in range(len(B)):
+            if (A[i]+B[j]) == x:
+                temp.append(A[i])
+                temp.append(B[j])
+                answer.append(temp)
+                temp = list()
+    if len(answer) == 0:
+        return -1
+    else:
+        answer = sorted(answer)
+        for i in range(len(answer)):
+            answer[i] = list(map(str, answer[i]))
+        return ', '.join([' '.join(i) for i in answer])
 
 
 t = int(input())
 for i in range(t):
-    n = int(input())
-    arr = list(map(int, input().split()))
-    print(rearrange_array(arr))
+    N = list(map(int, input().split()))
+    x = N[2]
+    A = list(map(int, input().split()))
+    B = list(map(int, input().split()))
+    print(find_all_pairs(A,B,x))
 ```
