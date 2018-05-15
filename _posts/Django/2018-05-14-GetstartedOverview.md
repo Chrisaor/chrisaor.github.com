@@ -39,7 +39,7 @@ class Article(models.Model):
         return self.headline
 ```
 
---
+---
 
 ## 설치하기
 
@@ -51,7 +51,7 @@ $ python manage.py migrate
 
 migrate 명령어는 가용한 모든 모델을 보고 데이터베이스에 아직 생성되지 않은 테이블을 만듭니다, 그뿐 아니라 스키마 제어를 위한 좀더 풍부한 기능을 옵션으로 제공합니다.
 
---
+---
 
 ## 자유로운 API 즐기기
 
@@ -128,7 +128,7 @@ DoesNotExist: Reporter matching query does not exist.
 >>> r.delete()
 ```
 
---
+---
 
 ## 동적인 관리자 인터페이스: 단순한 뼈대 세우기가 아닙니다 -- 이것은 완성된 집입니다
 
@@ -209,7 +209,7 @@ def year_archive(request, year):
 
 이 예제는 Django의 template system을 사용합니다. Django 템플릿 시스템은 몇몇 강력한 기능들을 가지고 있지만 프로그래머가 아닌 사람도 사용하기에 어렵지 않도록 간결함을 유지하도록 노력하였습니다.
 
---
+---
 
 ## 여러분만의 템플릿 작성
 
@@ -221,7 +221,9 @@ def year_archive(request, year):
 
 **`mysite/news/templates/news/year_archive.html`**
 
-```python
+{% raw %}
+
+```html
 {% extends "base.html" %}
 
 {% block title %}Articles for {{ year }}{% endblock %}
@@ -236,3 +238,48 @@ def year_archive(request, year):
 {% endfor %}
 {% endblock %}
 ```
+
+변수는 이중 중괄호로 둘러싸입니다. {{ article.headline }} 의 뜻은 “article의 headline 속성의 값을 출력하겠다.” 입니다. 하지만 마침표가 속성의 조회에만 사용되는것은 아닙니다. 점은 사전의 키 조회에도 사용될수 있으며 인덱스 조회와 함수 호출에도 사용될 수 있습니다.
+
+참고로 {{ article.pub_date|date:"F j, Y" }}는 유닉스 스타일의 “파이프”(“|” 문자)를 사용한것입니다. 이 파이프는 템플릿 필터를 호출하며 이를 통해 변수의 값을 필터링 할 수 있습니다. 이 코드에서 date 필터는 파이썬의 datetime 개체를 지정한 포맷으로 변환 시킵니다.(PHP의 date 함수처럼 말이죠, 네 PHP 의 좋은 아이디어 중에 하나입니다.)
+
+여러분은 좋아하는 여러 필터들을 함께 연결할 수 있습니다. 여러분은 커스텀 템플릿 필터 를 작성할 수 있습니다. 여러분은 은밀하게 실행되는 커스텀 파이썬 코드인 커스텀 템플릿 태그 를 작성할 수도 있습니다.
+
+이제 마지막으로 Django의 “템플릿 상속” 개념을 사용해 보죠. 이를 통해 {% extends "base.html" %} 코드가 무슨 일을 하는지 알 수 있습니다. 이 코드의 의미는 ” 한 뭉치의 block들이 정의된 ‘base’라는 템플릿을 먼저 로드하고 뒤따르는 block들로 이 block들을 채운다는것” 입니다. 간단히 말해 템플릿안의 중복을 극적으로 낮추게 합니다. 각각의 템플릿은 자신이 표현하려는 내용들만 정의할수 있게 되기 때문입니다.
+
+“base.html” 템플릿은 static files의 사용을 포함하여, 다음과 같이 채워져 있을 것입니다.
+
+```html
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <img src="{% static "images/sitelogo.png" %}" alt="Logo" />
+    {% block content %}{% endblock %}
+</body>
+</html>
+```
+
+{% endraw %}
+
+간단하게 사이트의 룩앤필(사이트의 로고)을 정의하고 자식 템플릿이 내용을 채워넣을 “구멍”들을 제공합니다. 이러한 방식은 사이트의 디자인 변경을 ‘base’ 템플릿 파일 하나를 바꾸는 것 같이 쉬운 방법으로 가능하게 해줍니다.
+
+또한 자식 템플릿을 재활용해서 서로 다른 base 템플릿으로 여러 버전의 사이트를 만들수 있게 합니다. Django의 제작자는 이러한 테크닉으로 완전히 다른 모바일 버전의 사이트를 만들었습니다. 간단히 새로운 base 템플릿을 만드는것으로 말이죠.
+
+여러분이 선호하는 템플릿 시스템이 있다면 꼭 Django의 템플릿 시스템을 사용할 필요는 없습니다. Django의 템플릿 시스템은 Django의 모델계층과 매우 잘 통합되어 있지만 꼭 이를 사용하도록 강제하는 것은 아닙니다. 이러한 이유들로 Django의 database API 역시 반드시 써야할 필요는 없습니다. 여러분은 다른 데이터베이스 추상화 계층을 사용할수 있으며 XML 파일이나 디스크에서 다른파일을 사용하거나 여러분이 원하는 다른 여러가지 방식으로 사용할수도 있습니다. 각각의 Django 구성요소들 -- 모델, 뷰, 템플릿 -- 은 서로 결합도가 낮게 되어있습니다.
+
+---
+
+## 이건 단지 껍데기일 뿐
+
+이건 Django의 기능에 대한 간략한 개요에 불과합니다. 다음과 같이 좀 더 유용한 기능들도 많습니다.
+
+- memached나 기타 백엔드와 통합된 캐시 프레임워크
+- 파이썬 클래스를 약간 작성하는 것만으로 RSS와 Atom 피드를 쉽게 만들어주는 신디케이션 프레임워크.
+- 아주 매력적인 자동 생성 관리자 기능 -- 이 개요문서는 맛보기일 뿐입니다.
+
+여러분이 앞으로 거쳐갈 단계는 download Django, 튜토리얼을 읽고 the community에 참여하는 것입니다. 여러분의 관심에 감사드립니다.
+
+<끝>
