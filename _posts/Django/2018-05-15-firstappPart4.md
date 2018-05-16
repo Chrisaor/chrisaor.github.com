@@ -5,6 +5,8 @@ date:   2018-05-15 11:46:00 +0900
 categories: django
 ---
 
+
+
 # 첫 번째 장고 앱 작성하기, part 4
 
 이 튜토리얼은 Tutorial 3 에서 이어집니다. 웹-설문조사 어플리케이션을 다루고 있고, 간단한 폼 처리와 소스코드를 줄여가는데 중점을 둘것입니다.
@@ -16,7 +18,7 @@ categories: django
 
 **`polls/templates/polls/detail.html`**
 
-<raw>
+{% raw %}
 
 ```html
 <h1>{{ question.question_text }}</h1>
@@ -33,15 +35,21 @@ categories: django
 </form>
 ```
 
+{% endraw %}
+
 간략하게 설명하면:
 
 - 위의 템플릿은 각 질문 선택 항목에 대한 라디오 버튼을 표시합니다. 각 라디오 버튼의 **value** 는 연관된 질문 선택 항목의 ID입니다. 각 라디오 버튼의 **name** 은 **"choice"**입니다. 즉, 누군가가 라디오 버튼 중 하나를 선택하여 폼을 제출하면, POST 데이터 인 **choice=#**을 보낼 것입니다. 여기서 #은 선택한 항목의 ID입니다. 이것은 HTML 폼의 기본 개념입니다.
+
+{% raw %}
 
 - 폼의 **action**을 **{% url 'polls:vote' question.id %}**로 설정하고, **method="post"** 로 설정하였습니다. 이 폼을 전송하는 행위는 서버측 자료를 변경할 것이므로, **method="post"** (**method="get"** 와 반대로) 를 사용하는 것은 매우 중요합니다. 서버 측 자료를 변경하는 폼을 작성할 때마다, **method="post"** 를 사용하세요. 이 팁은 Django에만 국한되지 않습니다. 이것은 웹개발시의 권장사항 입니다.
 
 - **forloop.counter** 는 **for** 태그가 반복을 한 횟수를 나타냅니다.
  
 - 우리는 POST 폼(자료를 수정하는 효과를 가진)을 만들고 있으므로, 사이트 간 요청 위조 (Cross Site Request Forgeries)에 대해 고민해야합니다. 고맙게도, Django는 사이트 간 요청 위조(CSRF)에 대항하기위한 사용하기 쉬운 시스템을 가지고 있기 때문에, 너무 심각하게 고민할 필요가 없습니다. 간단히 말하면, 내부 URL들을 향하는 모든 POST 폼에 템플릿 태그 **{% csrf_token %}**를 사용하면됩니다.
+
+{% endraw %}
 
 이제 제출된 데이터를 처리하고 그 데이터로 무언가를 수행하는 Django 뷰를 작성하겠습니다. 튜토리얼 3 에서 설문조사 어플리케이션을 위해 아래에 나와있는 코드를 포함하는 URLconf 를 만들었습니다:
 
@@ -102,6 +110,8 @@ Django는 같은 방법으로 GET 자료에 접근하기 위해 **request.GET** 
 
 어떤 이가 설문조사에 설문을 하고난 뒤에는, **vote()** 뷰는 설문조사 결과 페이지로 리다이렉트합니다. 그 뷰를 작성해봅시다:
 
+{% raw %}
+
 **`polls/views.py`**
 
 ```python
@@ -113,9 +123,13 @@ def results(request, question_id):
     return render(request, 'polls/results.html', {'question': question})
 ```
 
+{% endraw %}
+
 Tutorial 3 의 **detail()** 뷰와 거의 동일합니다. 템플릿 이름만 다릅니다. 나중에 이 중복을 수정할 겁니다.
 
 이제, **polls/results.html** 템플릿을 만듭니다.
+
+{% raw %}
 
 **`polls/templates/polls/results.html`**
 
@@ -130,6 +144,8 @@ Tutorial 3 의 **detail()** 뷰와 거의 동일합니다. 템플릿 이름만 �
 
 <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
 ```
+
+{% endraw %}
 
 이제, 웹 브라우저에서 **/polls/1/** 페이지로 가서, 투표를 해보세요. 당신이 투표를 할 때마다 값이 반영된 결과 페이지를 볼 수 있을 것입니다. 만약 당신이 설문지를 선택하지 않고 폼을 전송했다면, 오류 메시지를 보게 될 것입니다.
 
@@ -239,4 +255,3 @@ def vote(request, question_id):
 
 폼 및 제너릭 뷰가 마음에 들면, 이 설문조사 앱의 테스트에 대해 튜토리얼의 5장을 읽어 배워 보기 바랍니다.
 
-<endraw>

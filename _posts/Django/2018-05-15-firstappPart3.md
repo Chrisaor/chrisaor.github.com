@@ -4,7 +4,9 @@ title:  "[시작하기] 첫 번째 장고 앱 작성하기, Part 3"
 date:   2018-05-15 11:45:00 +0900
 categories: django
 ---
-<raw>
+
+
+
 # 첫 번째 장고 앱 작성하기, part3
 
 이 튜토리얼은 Tutorial 2 에서 이어집니다. 이제 poll 어플리케이션에 공개 인터페이스인 "view" 를 추가해 보겠습니다.
@@ -135,6 +137,7 @@ project 의 **TEMPLATES** 설정에는 Django 가 어떻게 template 을 불러�
 
 **`polls/templates/polls/index.html`**
 
+{% raw %}
 
 ```html
 {% if latest_question_list %}
@@ -148,6 +151,7 @@ project 의 **TEMPLATES** 설정에는 Django 가 어떻게 template 을 불러�
 {% endif %}
 ```
 
+{% endraw %}
 
 이제, template 을 이용하여 **polls/views.py** 에 **index** view 를 업데이트 해보도록 하겠습니다.
 
@@ -219,8 +223,12 @@ def detail(request, question_id):
 
 조금 후에 **polls/detail.html** template 에 무엇을 넣을 수 있는지 논의하겠지만, 일단 위의 예제를 동작시키기 위해 아래의 내용이 들어있는 파일을 작성하세요.
 
+{% raw %}
+
 **`polls/templates/polls/detail.html`**
 `{{ question }}`
+
+{% endraw %}
 
 이제 시작해도 됩니다.
 
@@ -258,6 +266,7 @@ poll 어플리케이션의 **detail()** view 로 되돌아 가봅시다. context
 
 **`polls/templates/polls/detail.html`**
 
+{% raw %}
 
 ```html
 <h1>{{ question.question_text }}</h1>
@@ -268,10 +277,18 @@ poll 어플리케이션의 **detail()** view 로 되돌아 가봅시다. context
 </ul>
 ```
 
+{% endraw %}
 
 template 시스템은 변수의 속성에 접근하기 위해 점-탐색(dot-lookup) 문법을 사용합니다. 예제의 **{{ question.question_text }}** 구문을 보면, Django 는 먼저 **question** 객체에 대해 사전형으로 탐색합니다. 탐색에 실패하게 되면 속성값으로 탐색합니다. (이 예에서는 속성값에서 탐색이 완료됩니다만) 만약 속성 탐색에도 실패한다면 리스트의 인덱스 탐색을 시도하게 됩니다.
 
-**{% for %}** 반복 구문에서 메소드 호출이 일어납니다. **question.choice_set.all** 은 Python 에서 **question.choice_set.all()** 코드로 해석되는데, 이때 반환된 **Choice** 객체의 반복자는 **{% for %}** 에서 사용하기 적당합니다.
+{% raw %}
+
+**{% for %}** 반복 구문에서 메소드 호출이 일어납니다.
+
+
+**question.choice_set.all** 은 Python 에서 **question.choice_set.all()** 코드로 해석되는데, 이때 반환된 **Choice** 객체의 반복자는 **{% for %}** 에서 사용하기 적당합니다.
+ 
+{% endraw %}
 
 template 에 대한 더 많은 정보는 template 지침서 를 참고하세요
 
@@ -280,18 +297,27 @@ template 에 대한 더 많은 정보는 template 지침서 를 참고하세요
 
 기억하셔야 할 것은, **polls/index.html** template 에 링크를 적으면, 이 링크는 다음과 같이 부분적으로 하드코딩 됩니다.
 
+{% raw %}
 
 ```html
 <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
 ```
 
+
+
 이러한 강력하게 결합되고 하드코딩된 접근방식의 문제는 수 많은 템플릿을 가진 프로젝트들의 URL 을 바꾸는 게 어려운 일이 된다는 점입니다. 그러나, **polls.urls** 모듈의 **path()** 함수에서 인수의 이름을 정의했으므로, **{% url %}** template 태그를 사용하여 url 설정에 정의된 특정한 URL 경로들의 의존성을 제거할 수 있습니다.
+
+
 
 ```html
 <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
 ```
 
+{% endraw %}
+
 이것이 **polls.urls** 모듈에 서술된 URL 의 정의를 탐색하는 식으로 동작합니다. 다음과 같이 'detail' 이라는 이름의 URL 이 어떻게 정의되어 있는지 확인할 수 있습니다.
+
+{% raw %}
 
 ```html
 ...
@@ -299,6 +325,8 @@ template 에 대한 더 많은 정보는 template 지침서 를 참고하세요
 path('<int:question_id>/', views.detail, name='detail'),
 ...
 ```
+
+{% endraw %}
 
 만약 detail view 의 URL 을 **polls/specifics/12/** 로 바꾸고 싶다면, template 에서 바꾸는 것이 아니라 **polls/urls.py** 에서 바꿔야 합니다.:
 
@@ -311,7 +339,11 @@ path('specifics/<int:question_id>/', views.detail, name='detail'),
 
 ## URL 의 이름공간(namespace) 나누기
 
+{% raw %}
+
 튜토리얼의 project 는 하나의 **polls** 라는 app 하나만 가지고 진행했습니다. 실제 Django 의 project 는 app 이 몇개라도 올 수 있습니다. Django 는 이 app 들의 URL 을 어떻게 구별해 낼까요? 예를 들어, **polls** app 은 **detail** 이라는 view 를 가지고 있고, 동일한 project 에 블로그를 위한 app 이 있을수도 있습니다. Django 가 **{% url %}** template 태그를 사용할 때, 어떤 app 의 view 에서 URL 을 생성할지 알 수 있을까요?
+
+{% endraw %}
 
 정답은 URLconf 에 이름공간(namespace)을 추가하는 것입니다. **polls/urls.py** 파일에 **app_name** 을 추가하여 어플리케이션의 이름공간을 설정할 수 있습니다.
 
@@ -333,19 +365,27 @@ urlpatterns = [
 
 이제, **polls/index.html** template 의 기존 내용을
 
+{% raw %}
+
 **`polls/templates/polls/index.html`**
 
 ```html
 <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
 ```
 
+{% endraw %}
+
 아래와 같이 이름공간으로 나눠진 detail 의 view 를 가르키도록 변경하세요.
+
+{% raw %}
 
 ```html
 polls/templates/polls/index.html
 <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
 ```
 
+{% endraw %}
+
 view 를 작성하는 것이 익숙해 지셨다면, 4장 튜토리얼 에서 간단한 서식 처리와 generic view 를 배워보세요.
 
-<endraw>
+

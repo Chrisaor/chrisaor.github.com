@@ -5,6 +5,8 @@ date:   2018-05-15 11:49:00 +0900
 categories: django
 ---
 
+
+
 # 첫 번째 장고 앱 작성하기, part 7
 
 이 튜토리얼은 튜토리얼 6장에 이어서 시작합니다. 우리는 웹 설문조사 어플리케이션을 계속 사용하고 있으며, 튜토리얼 2장에서 봤었던 자동으로 생성된 관리자 사이트를 커스터마이징하는 데 초점을 맞출 것입니다.
@@ -15,7 +17,7 @@ categories: django
 
 수정 폼의 필드를 재정렬하여 이것이 작동하는법을 보겠습니다. **admin.site.register(Question) **줄을 다음과 같이 바꾸세요:
 
-<raw>
+
 **`polls/admin.py`**
 
 ```python
@@ -83,7 +85,7 @@ admin.site.register(Choice)
 
 ![image](https://user-images.githubusercontent.com/33015649/40056544-b3e990d6-5886-11e8-951c-ed009c3a53c6.png)
 
-이 양식에서 "Question" 필드는 데이터베이스의 모든 질문을 포함하는 select box입니다. Django는 **ForeignKey**가 admin에서 **<select>**로 표현되어야 함을 알고 있습니다. 우리의 경우, 지금은 단 하나의 질문 만이 존재합니다.
+이 양식에서 "Question" 필드는 데이터베이스의 모든 질문을 포함하는 select box입니다. Django는 **ForeignKey**가 admin에서 **\<select\>**로 표현되어야 함을 알고 있습니다. 우리의 경우, 지금은 단 하나의 질문 만이 존재합니다.
 
 또한 "Question" 옆의 "Add Another" 링크를 주목하세요. **ForeignKey** 관계를 가진 모든 객체는 저 링크가 붙습니다. "Add Another"를 클릭하면 "Add question" 폼이 있는 팝업 창이 나타납니다. 해당 창에 질문을 추가하고 "Save"를 클릭하면 장고는 질문을 데이터베이스에 저장하고, 동적으로 이를 선택된 항목으로 당신이 보고있는 "Add choice" 폼에 추가합니다.
 
@@ -259,18 +261,28 @@ Django 소스 파일이 시스템에있는 위치를 찾는 데 어려움이있�
 
 `$ python -c "import django; print(django.__path__)"`
 
+{% raw %}
+ 
+그런 다음, 파일을 편집하고 
+**{{site_header|default:_ ('Django administration' }}**(중괄호를 포함하여)를 자신의 사이트 이름으로 바꿉니다. 다음과 같은 코드 섹션을 작성해야합니다.
 
-그런 다음, 파일을 편집하고 **{{site_header|default:_ ('Django administration' }}**(중괄호를 포함하여)를 자신의 사이트 이름으로 바꿉니다. 다음과 같은 코드 섹션을 작성해야합니다.
+{% endraw %}
+
+{% raw %}
 
 ```html
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">Polls Administration</a></h1>
 {% endblock %}
 ```
+{% endraw %}
 
 이 방법을 사용하여 템플릿을 재정의하는 방법을 학습합니다. 실제 프로젝트에서는 아마 **django.contrib.admin.AdminSite.site_header** 속성을 사용하여이 개별 커스터마이징을보다 쉽게 만들 수 있습니다.
 
+{% raw %}
+
 이 템플릿 파일에는 **{% block branding %}**및 **{{title}}**과 같은 텍스트가 많이 포함되어 있습니다. {%와 {{태그들은 장고의 템플릿 언어의 일부입니다. Django가 **admin/base_site.html**을 렌더링 할 때, 이 템플릿 언어는 Tutorial 3 에서 보았 듯이 최종 HTML 페이지를 생성하기 위해 평가 될 것입니다.
+{% endraw %}
 
 Django의 기본 admin 템플릿 중 어떤 것도 덮어 쓸수 있습니다. 템플릿을 덮어 쓰려면, **base_site.html**로했던 것과 똑같은 일을 하면 됩니다 - 기본 디렉토리에서 그것을 커스텀 디렉토리로 복사하고 변경하십시오.
 
@@ -291,8 +303,8 @@ Django가 템플릿을 찾는 방법에 대한 자세한 정보는 템플릿 로
 커스터마이징 할 템플릿은 **admin/index.html**입니다. (이전 섹션의 **admin/base_site.html**와 같은 작업을 합니다 - 기본 디렉토리에서 커스텀 템플릿 디렉토리로 복사하십시오). 파일을 편집하면 **app_list**라는 템플릿 변수를 사용하는 것을 볼 수 있습니다. 이 변수는 설치된 모든 장고 앱을 포함합니다. 이를 사용하는 대신 최선의 방법이라고 생각한다면 개체 별 admin 페이지에 대한 링크를 하드 코딩 할 수 있습니다.
 
 ## 다음 내용은?
+
 초보 자습서는 여기서 끝납니다. 아울러 앞으로 무엇을 해야할지문서를 좀더 읽어볼수 있습니다.
 
 파이썬 패키징에 익숙하고 설문 조사를 "재사용 가능한 앱"으로 바꾸는 방법을 배우고 싶다면 심화 튜토리얼:재사용 가능한 애플리케이션을 만드는 법을 읽어보십시오.
 
-<endraw>
