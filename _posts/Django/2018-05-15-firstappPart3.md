@@ -4,7 +4,7 @@ title:  "[시작하기] 첫 번째 장고 앱 작성하기, Part 3"
 date:   2018-05-15 11:45:00 +0900
 categories: django
 ---
-
+<raw>
 # 첫 번째 장고 앱 작성하기, part3
 
 이 튜토리얼은 Tutorial 2 에서 이어집니다. 이제 poll 어플리케이션에 공개 인터페이스인 "view" 를 추가해 보겠습니다.
@@ -135,7 +135,6 @@ project 의 **TEMPLATES** 설정에는 Django 가 어떻게 template 을 불러�
 
 **`polls/templates/polls/index.html`**
 
-<raw>
 
 ```html
 {% if latest_question_list %}
@@ -148,7 +147,7 @@ project 의 **TEMPLATES** 설정에는 Django 가 어떻게 template 을 불러�
     <p>No polls are available.</p>
 {% endif %}
 ```
-<endraw>
+
 
 이제, template 을 이용하여 **polls/views.py** 에 **index** view 를 업데이트 해보도록 하겠습니다.
 
@@ -259,7 +258,6 @@ poll 어플리케이션의 **detail()** view 로 되돌아 가봅시다. context
 
 **`polls/templates/polls/detail.html`**
 
-<raw>
 
 ```html
 <h1>{{ question.question_text }}</h1>
@@ -276,13 +274,12 @@ template 시스템은 변수의 속성에 접근하기 위해 점-탐색(dot-loo
 **{% for %}** 반복 구문에서 메소드 호출이 일어납니다. **question.choice_set.all** 은 Python 에서 **question.choice_set.all()** 코드로 해석되는데, 이때 반환된 **Choice** 객체의 반복자는 **{% for %}** 에서 사용하기 적당합니다.
 
 template 에 대한 더 많은 정보는 template 지침서 를 참고하세요
-<endraw>
+
 
 ## Template 에서 하드코딩된 URL 을 제거하기
 
 기억하셔야 할 것은, **polls/index.html** template 에 링크를 적으면, 이 링크는 다음과 같이 부분적으로 하드코딩 됩니다.
 
-<raw>
 
 ```html
 <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
