@@ -174,17 +174,84 @@ help_text="Please use the following format: <em>YYYY-MM-DD</em>."
 
 ---
 
-### primary_key
+### primary\_key
 
-**Field.primary_key**
+**Field.primary\_key**
 
-True로 설정하면 해당 필드는 모델의 primary key가 된다.
+**True**로 설정하면 해당 필드는 모델의 primary key가 된다.
 
-모델의 모든 필드에 대해 primary_key = True를 지정하지 않으면 장고는 primary key를 보유할 자동 필드를 자동으로 추가한다. 따라서 primary key 동작을 덮어쓰려고 하지 않는 한 굳이 설정할 필요 없다. [Automatic primary key fields](https://docs.djangoproject.com/en/2.0/topics/db/models/#automatic-primary-key-fields) 참조
+모델의 모든 필드에 대해 **primary_key = True**를 지정하지 않으면 장고는 primary key를 보유할 **AutoField**를 자동으로 추가한다. 따라서 primary key 동작을 덮어쓰려고 하지 않는 한 굳이 설정할 필요 없다. [Automatic primary key fields](https://docs.djangoproject.com/en/2.0/topics/db/models/#automatic-primary-key-fields) 참조
 
-primary_key = True로 설정하는 것은 null = False 및 unique = True를 의미한다. 한 객체에는 오직 하나의 primary key만이 허용된다.
+**primary_key = True**로 설정하는 것은 **null = False** 및 **unique = True**를 의미한다. 한 객체에는 오직 하나의 primary key만이 허용된다.
 
 primary key 필드는 읽기 전용이다. 기존 객체의 primary key 값을 변경한 다음에 저장하면 새로운 키 값이 생성된다.
 
 
+
+---
+
+### unique
+
+**Field.unique**
+
+만약에 True로 설정되어 있다면 필드는 테이블 전체에서 유일한 값을 가져야 한다.
+
+이는 데이터 베이스 레벨에서 모델 유효성 검사에 의해 시행된다. **unique** 설정이 되어있는 필드에 중복값이 있는 모델을 저장하려고 하면 모델의 **save()** 메소드에 의해 **django.db.IntegrityError**가 발생한다.
+
+이 옵션은 ManyToManyField 및 OneToOneField를 제외한 모든 필드 유형에 유효하다.
+
+unique를 설정하면 인덱스 생성을 의미하므로 db_index를 따로 지정할 필요가 없다.
+
+---
+
+### unique\_for\_date
+
+**Field.unique\_for\_date**
+
+이것을 DateField 또는 DateTimeField의 이름으로 설정하여 이 필드가 날짜 값에 대해 고유한 값을 가지게 한다.
+
+예를 들어, **title** 필드에 **unique\_for\_date='pub_date'** 속성을 주면 장고는 같은 **title**, **pub_date**를 허용하지 않는다.
+
+**DateTimeField**로 설정한다면 필드의 날짜부분만 고려된다. 게다가 **USE_TZ**이 **True**일 때, 객체가 저장될 때 현지 시간대에서 검사가 수행된다.
+
+모델 유효성 검사 중에는 Model.validate_unique()에 의해 적용되지만 데이터베이스 수준에서는 적용되지 않는다. unique\_for\_date 제약 조건에 ModelForm의 일부가 아닌 필드가 포함되는 경우(예를 들어, 필드 중에 하나가 exclude목록에 있거나 나 editable=False 설정이 된 경우), Model.validate\_unique()는 그 특정 제약에 의해 유효성 검사를 건너뛴다.
+
+---
+### unique\_for\_month
+
+**Field.unique\_for\_month**
+
+**unique\_for\_date**와 같지만 월을 기준으로 필드에 unique옵션이 적용된다.
+
+---
+### unique\_for\_year
+
+**Field.unique\_for\_year**
+
+**unique_for_date**와 **unique_for_month**처럼 사용하면 된다.
+
+---
+### verbose_name
+
+Field.verbose_name
+
+필드에 인간친화적인 이름을 붙인다. 만약에 verbose name이 주어지지 않으면 장고는 자동으로 필드의 속성이름을 자동으로 변환한다(언더스코어는 스페이스로). [Verbose field](https://docs.djangoproject.com/en/2.0/topics/db/models/#verbose-field-names)를 참고
+
+---
+### validators
+
+**Field.validators**
+
+필드에 실행할 validator(유효성 검사) 목록이다. 자세한 내용은 [유효성 검사 문서](https://docs.djangoproject.com/en/2.0/ref/validators/)를 참조.
+
+
+#### 검색 등록 및 가져오기
+
+필드는 조회 등록 API를 구현한다. API를 사용하여 필드 클래스에 사용할 수 있는 조회와 필드에서 조회를 가져오는 방법을 사용자 정의할 수 있다.
+
+## Field types
+
+### AutoField
+
+class AutoField(**options)
 
