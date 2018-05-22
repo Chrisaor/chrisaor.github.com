@@ -565,6 +565,8 @@ Email address같은 필드의 레이블
 {% include "form_snippet.html" with form=comment_form %}
 ```
 
+{% endraw %}
+
 자주 이런 일을 하는 경우에는 맞춤식 태그를 만드는 것이 좋다.
 
 <끝>
