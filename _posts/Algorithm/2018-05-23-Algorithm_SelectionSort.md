@@ -14,13 +14,11 @@ categories: Algorithm
 ```python
 def selection_sort(list1):
     for i in range(len(list1)):
-        minimum = list1[i]
-                for j in range(i,len(list1)):
-            if j+1 == len(list1):
-                continue
-            elif minimum >= list1[j+1]:
-                minimum = list1[j+1]
-                min_index = j+1
+        min_num = list1[i]
+        for j in range(i,len(list1)):
+            if min_num >= list1[j]:
+                min_num = list1[j]
+                min_index = j
         list1[min_index], list1[i] = list1[i], list1[min_index]
         min_index = i+1
     return list1
