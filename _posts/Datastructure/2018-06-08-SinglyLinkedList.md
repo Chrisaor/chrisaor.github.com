@@ -22,7 +22,7 @@ categories: datastructure
 
 원소를 추가하는 3가지 방법 `push`(앞쪽에 추가), `insertAfter`(원소 뒤에 추가), `append`(맨 뒤에 추가)을 파이썬으로 구현하면 다음과 같다.
 
-```
+```python
 # 노드 클래스
 class Node:
     def __init__(self, data):
