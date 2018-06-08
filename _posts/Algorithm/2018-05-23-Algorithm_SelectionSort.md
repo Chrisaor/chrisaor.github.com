@@ -2,7 +2,7 @@
 layout: post
 title:  "[Sort] 선택 정렬(Selection Sort)"
 date:   2018-05-23 12:15:00 +0900
-categories: Algorithm
+categories: datastructure
 ---
 
 
