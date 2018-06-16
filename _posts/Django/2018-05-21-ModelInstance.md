@@ -106,7 +106,7 @@ def save(self, *args, **kwargs):
 
 위의 예제는 전체 from_db()구현을 보여준다. 이 경우 from_db() 메소드에서 super()호출 만 사용하는 것이 가능하다.
 
-## Refreshing objects from database
+## 데이터베이스에서 객체 새로고침
 
 모델 인스턴스에서 필드를 삭제하면 다시 액세스하여 데이터베이스에서 값을 다시 로드한다.
 
@@ -141,4 +141,32 @@ def test_update_result(self):
     obj.refresh_from_db()
     self.assertEqual(obj.val, 2)
 ```
+
+지연된 필드에 액세스 할 때 지연된 필드의 값을 로딩하는 것은 이 메소드를 통해 발생한다. 따라서 지연 로딩이 발생하는 방식을 사용자 정의할 수 있다.
+
+```python
+class ExampleModel(models.Model):
+	def refresh_from_db(self, using = None, fields = None, **kwargs):
+	# 필드는 지연 필드의 이름을 포함한다.
+    # 로드됨
+    if fields is not None:
+            fields = set(fields)
+            deferred_fields = self.get_deferred_fields()
+            # 만약 지연된 필드가 로드되려 한다면
+            if fields.intersection(deferred_fields):
+                # 전부를 로드시킨다
+                fields = fields.union(deferred_fields)
+        super().refresh_from_db(using, fields, **kwargs)
+```
+
+#### Model.get_deferred_fields()
+
+현재 연기되고 있는 모든 필드의 속성이름을 포함한 셋을 모델로 돌려주는 헬퍼 메소드이다.
+
+## 객체 유효성 검사하기
+
+모델 유효성 검사에는 세 단계가 있다.
+
+1. 모델 필드들 유효화하기 - **Model.clean_fields()**
+2. 
 
