@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "[Easy] Sum of Middle Elements of two sorted arrays"
-date:   2018-06-15 12:22:00 +0900
+title:  "[Basic] Make a Distict Digit Array"
+date:   2018-06-16 12:22:00 +0900
 categories: Algorithm
 ---
 
