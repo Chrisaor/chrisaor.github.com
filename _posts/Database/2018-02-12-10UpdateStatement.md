@@ -7,7 +7,7 @@ categories: database
 
 ## The SQL UPDATE Statement
 
-이미 존재하는 데이터에 정보가 변경되었을 때 수정하는 방법
+이미 존재하는 데이터의 정보가 변경되었을 때 수정하는 방법
 
 **SQL UPDATE Syntax**
 
