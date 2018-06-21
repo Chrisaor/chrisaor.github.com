@@ -253,5 +253,192 @@ Field.verbose_name
 
 ### AutoField
 
-class AutoField(**options)
+**class AutoField(\*\*options)**
+
+사용 가능한 ID에 따라 자동으로 증가하는 IntegerField이다. 보통 이것을 직접 사용할 필요는 없다. 별도로 지정하지 않으면 primary key필드가 자동으로 모델에 추가된다. [Automatic primary key fields](https://docs.djangoproject.com/en/2.0/topics/db/models/#automatic-primary-key-fields)를 참고
+
+### BigAutoField
+
+**class BigAutoField(\*\*options)**
+
+1에서 9223372036854775807까지 숫자를 보장하는 AutoField와 같다.
+
+### BinaryField
+
+**class BinaryField(\*\*options)**
+
+raw binary data를 저장하는 필드이다. bytes 할당만 지원한다. 기능이 제한되어 있다. 예를 들어, BinaryField 값에 대한 쿼리 집합을 필터링 할 수 없다. 또한 BinaryField를 ModelForm에 포함시키는 것도 불가능하다.
+
+> **BinaryField의 남용**
+> 
+> DB에 파일을 저장하는 것에 대해 생각할 수 있지만 99%의 경우 잘못된 디자인이다. 이 필드는 적절한 정적파일 처리를 대체하지 않는다.
+
+### BooleanField
+
+**class BooleanField(\*\*options)**
+
+True/False 필드
+
+이 필드의 기본 양식 위젯은 CheckboxInput이다. null값을 받아 들일 필요가 있다면 NullBooleanField를 사용해라. Field.default가 정의되어 있지 않으면 BooleanField의 기본값은 None이다.
+
+### CharField
+
+**class CharField(max_length=None, \*\*options)**
+
+작거나 큰 크기의 문자열을 나타내는 필드이다. 텍스트가 매우 클 경우 TextField를 사용해라. 이 필드의 기본 양식 위젯은 TextInput이다.  
+
+CharField에는 필수 인수가 있다.
+
+**CharField.max_length**
+
+필드의 최대 길이를 나타낸다. max_length는 데이터베이스 레벨과 장고 유효성 검사에 적용된다.
+
+> **Note**
+> 
+> 여러 데이터베이스 백엔드로 이식할 수 있어야하는 응용 프로그램을 작성하는 경우 일부 백엔드의 경우 max_length에 대한 제한 사항이 있음을 알아야한다. 자세한 내용은 [database backend notes](https://docs.djangoproject.com/en/2.0/ref/databases/)를 참고
+
+
+### DateField
+
+**class DateField(auto_now=False, auto_now_add=False, \*\*options)**
+
+Python에서 datetime.date 인스턴스로 표현되는 날짜이다. 추가로 몇가지 선택적 인수가 있다.
+
+**DateField.auto\_now**
+
+**객체가 저장될 때마다** 필드를 현재로 자동 설정한다. "마지막으로 수정 된 시간"이 필요할 때 유용하다. 현재 날짜는 재정의 할 수 있는 기본 값이 아니다.
+
+이 필드는 Model.save()를 호출 할 때 자동으로 업데이트된다. 이 필드는 QuerySet.update()와 같은 다른 방법으로 다른 필드를 업데이트 할 때 업데이트 되지 않지만 이와 같은 업데이트에서 필드의 사용자 지정 값을 지정할 수 있다.
+
+**DateField.auto\_now\_add**
+
+**객체가 처음 생성 될 때** 자동으로 필드를 현재로 설정한다. 타임 스탬프 생성에 유용하다. 
+
+이 필드를 수정하려면 auto\_now\_add=True 대신 다음을 설정해라.
+
+- DateField : default=date.today  <= datetime.date.today()
+
+- DateTimeField : default=timezone.now <= django.utils.timezone.now()
+
+이 필드의 기본 양식 위젯은 TextInput이다. 관리자 페이지는 JavaScript 캘린더와 '오늘'에 대한 바로가기를 추가한다. invalid_date 에러 메시지 키를 추가로 포함한다.
+
+auto_now_add, auto_now와 default 옵션은 서로 배타적이므로 함께 사용하면 오류가 발생한다.
+
+> **Note**
+> 
+> 현재 구현 된 것처럼 auto_now 또는 auto_now_add를 True로 설정하면 해당 필드는 editable = False 및 blank = True로 설정된다.
+
+---
+
+> **Note**
+> 
+> auto_now 및 auto_now_add 옵션은 생성 또는 업데이트 할 때 항상 기본 시간대의 날짜를 사용한다. 다른 것이 필요한 경우 auto_now 또는 auto_now_add를 사용하는 대신 자신의 호출 가능한 기본 값을 사용하거나 save()를 재정의하는 것이 좋다. 또는 DateField 대신 DateTimeField를 사용하고 표시 시간에 datetime에서 date로의 변환을 처리하는 방법을 결정할 수 있다.
+
+### DateTiemField
+
+**class DateTimeField(auto_now=False, auto_now_add=False, \*\*options)**
+
+Python에서 datetime.datetime 인스턴스로 표현되는 날짜와 시간. DateField와 동일한 추가 인수를 사용한다. 이 필드의 기본 양식 위젯은 하나의 TextInput이다. 관리자는 JavaScript 바로가기가 있는 두 개의 별도 TextInput 위젯을 사용한다.
+
+### DecimalField
+
+### DurationField
+
+### EmailField
+
+**class EmailField(max_length=254, \*\*options)**
+
+
+유효한 이메일 주소인지 확인하는 CharField이다. EmailValidator를 사용하여 입력의 유효성을 검사함.
+
+### FileField
+
+### FilePathField
+
+### FloatField
+
+**class FloatField(\*\*options)**
+
+float 인스턴스로 파이썬에서 표현되는 부동소수점 숫자다. 이 필드의 기본 양식 위젯은 localize가 False일 때 NumberInput이고 그렇지 않으면 TextInput이다.
+
+> **FloatField vs. DecimalField**
+>
+> FloatField 클래스는 때때로 DecimalField 클래스와 혼합된다. 둘 다 실수를 나타내지만 그 수를 다르게 나타낸다. FloatField는 내부적으로 Python float 타입을 사용하고 DecimalField는 Python의 Decimal 타입을 사용한다.
+
+
+### ImageField
+
+**class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, \*\*options)**
+
+FileField의 모든 속성과 메서드를 상속하지만 업로드가 된 객체가 유효한 이미지인지 확인한다. FileField에서 사용할 수 있는 특수 특성 외에도 ImageField에는 height와 width 특성이 있다. 이러한 속성에 대한 쿼리를 용이하게 하기 위해 ImageField에는 두 가지의 추가 옵션 인수가 있다.
+
+**ImageField.height_field**
+
+모델 인스턴스가 저장될 떄마다 이미지의 높이로 자동 채워지는 모델 필드의 이름이다.
+
+**ImageField.width_field**
+
+모델 인스턴스가 저장될 떄마다 이미지의 너비가 자동으로 채워지는 모델 필드의 이름이다.
+
+**Pillow라이브러리가 필요하다**
+
+ImageField 인스턴스는 기본 최대 길이가 100자인 varchar열로 데이터베이스에 만들어진다. 다른 필드와 마찬가지로 max_length인수를 사용하여 최대 길이를 변경할 수 있다. 이 필드의 기본 양식 위젯은 ClearableFileInput이다.
+
+### IntegerField
+
+**class IntegerField(\*\*options)**
+
+정수. -2147483648에서 2147483647까지의 값은 장고가 지원하는 모든 데이터베이스에서 안전하다. 이 필드의 기본 양식 위젯은 localize가 False 일 때 NumberInput이고 그렇지 않으면 TextInput.
+
+### GenericIPAddressField
+
+### NullBooleanField
+
+**class NullBooleanField(\*\*options)**
+
+BooleanField와 NULL을 옵션 중 하나로 허용합니다. BooleanField 대신 null=True를 사용해라. 이 필드의 기본 양식 위젯은 NullBooleanSelect.
+
+### PoisitiveIntegerField
+
+### PositiveSmallIntegerField
+
+### SlugField
+
+### SmallIntegerField
+
+### TextField
+
+**class TextField(\*\*options)**
+
+긴 텍스트 필드. 이 필드에 대한 기본 양식 위젯은 Textarea.
+
+만약 max_length 속성을 명시하면 Textarea 위젯에 반영된다. 그래서 모델 또는 데이터베이스 레벨에서는 적용되지 않는다. 적용하려면 CharField를 사용해라.
+
+### TimeField
+
+**class TimeField(auto_now=False, auto_now_add=False, \*\*option)**
+
+Python에서 datetime.time 인스턴스로 표현되는 시간. DateField와 동일한 자동 채우기 옵션을 적용한다. 이 필드의 기본 양식 위젯은 TextInput. 관리자 페이지에는 몇가지 JavaScript 바로가기가 추가된다.
+
+### URLField
+
+**class URLField(max_length=200, \*\*options)**
+
+URL을 위한 CharField
+
+TextInput이 기본 양식 위젯으로 사용된다.
+
+모든 CharField의 서브클래스와 같이 URLField는 선택적 max_length 인수를 취한다. max_length를 지정하지 않으면 기본값으로 200이 들어간다.
+
+### UUIDField
+
+
+
+
+## Relationship fields(관계형 필드)
+
+
+
+
+
 
