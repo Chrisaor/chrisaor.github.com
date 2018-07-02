@@ -320,113 +320,215 @@ id_list가 제공되지 않으면, queryset의 모든 객체가 반환된다. fi
 
 ### latest()
 
+주어진 **필드**에 기반한 테이블에서 가장 최근의 객체를 반환한다.
+
 ### earliest()
+
+latest()와 반대로 가장 먼저 만들어진 객체를 반환함.
 
 ### first()
 
+쿼리셋과 일치하는 첫 번째 객체를 반환하거나 일치하는 객체가 없는 경우 None을 반환한다. QuerySet에 순서가 정렬되어 있지 않으면 쿼리셋은 기본 키에 의해 자동으로 정렬된다.
+
 ### last()
+
+first()와 반대로 쿼리셋의 마지막 객체를 반환한다.
 
 ### aggregate()
 
+QuerySet을 통해 계산된 집계 값(평균, 합계 등)의 딕셔너리를 반환한다. aggregate()의 각 인수는 반환되는 딕셔너리에 포함될 값을 지정한다.
+
 ### exists()
+
+QuerySet에 결과가 있으면 True를 반환하고 그렇지 않으면 False를 반환한다.
 
 ### update()
 
+지정된 필드에 대해 SQL업데이트 쿼리를 수행하고 일치하는 행 수를 반환한다.
+
 ### delete()
+
+QuerySet의 모든 행에 대해 SQL삭제 쿼리를 수행하고 삭제된 객체의 수와 객체 유형의 삭제 수가 들어있는 딕셔너리를 반환한다.
 
 ### as_manager()
 
+QuerySet 메서드의 복사본이 있는 Manager인스턴스를 반환하는 클래스 메소드이다.
+
 ## 필드 조회
+
+필드 검색은 SQL WHERE절을 지정하는 방법이다. 그것들은 QuerySet 메소드 filter(), exclude() 및 get()에 대한 키워드 인자로 지정된다.
 
 ### exact
 
+정확히 일치하는 항목인지 검사한다. 비교를 위해 제공된 값이 None이면 SQL NULL로 해석된다.
+
+```python
+Entry.objects.get(id__exact=14)
+Entry.objects.get(id__exact=None)
+```
+
 ### iexact
+
+대소문자 구분없는 exact.
+
+```python
+Blog.objects.get(name__iexact='beatles blog')
+Blog.objects.get(name__iexact=None)
+```
+
 
 ### contains
 
+해당 문자를 포함하고 있는지 검사한다.
+
+```python
+Entry.objects.get(headline__contains='Lennon')
+```
+
 ### icontains
+
+대소문자 구분없는 contains.
 
 ### in
 
+주어진 itrable(리스트, 튜플, 쿼리셋 등)에서 in을 사용함.
+
+```python
+Entry.objects.filter(id__in=[1, 3, 4])
+```
+
 ### gt
+
+greater than
+
+```python
+Entry.objects.filter(id__gt=4)
+```
+
+아래 SQL문과 같다 
+
+```sql
+SELECT ... WHERE id > 4;
+```
+
+### gte
+
+greater than or equal to
 
 ### lt
 
+less than
+
 ### lte
+
+less than or equal to
 
 ### startswith
 
+주어진 문자로 시작하는 객체를 검색
+
+```python
+Entry.objects.filter(headline__startswith='Lennon')
+```
+
 ### istartswith
+
+대소문자 구분없는 startswith
+
+```
+Entry.objects.filter(headline__istartswith='Lennon')
+```
+
 
 ### endswith
 
+주어진 문자로 끝나는 객체를 검색
+
+```python
+Entry.objects.filter(headline__endswith='Lennon')
+```
+
 ### iendswith
+
+대소문자 구분없는 endswith
+
+```python
+Entry.objects.filter(headline__iendswith='Lennon')
+```
 
 ### range
 
+SQL의 BETWEEN문으로 사용할 수 있다. 
+
+
+```python
+import datetime
+start_date = datetime.date(2005, 1, 1)
+end_date = datetime.date(2005, 3, 31)
+Entry.objects.filter(pub_date__range=(start_date, end_date))
+```
+
 ### date
+
+datetime 필드의 경우, 값을 날짜로 변환한다. 날짜 값을 사용한다.
+
+```python
+Entry.objects.filter(pub_date__date=datetime.date(2005, 1, 1))
+Entry.objects.filter(pub_date__date__gt=datetime.date(2005, 1, 1))
+```
 
 ### year
 
+date 및 datetime 필드의 경우, 정확히 일치하는 연도를 찾는다.
+
+```python
+Entry.objects.filter(pub_date__year=2005)
+Entry.objects.filter(pub_date__year__gte=2005)
+```
+
 ### month
+
+date 및 datetime 필드의 경우, 정확히 일치하는 달을 찾는다.
+
+```python
+Entry.objects.filter(pub_date__month=12)
+Entry.objects.filter(pub_date__month__gte=6)
+```
+
 
 ### day
 
-### week
+date 및 datetime 필드의 경우, 정확히 일치하는 일을 찾는다.
 
-### week_day
-
-### quarter
-
-### time
-
-### hour
-
-### minute
-
-### second
+```python
+Entry.objects.filter(pub_date__day=3)
+Entry.objects.filter(pub_date__day__gte=3)
+```
 
 ### isnull
 
+IS NULL 및 IS NOT NULL의 SQL쿼리에 해당하며 True, False를 반환한다.
+
+```python
+Entry.objects.filter(pub_date__isnull=True)
+```
+
 ### regex
+
+정규표현식에 매치되는 객체를 반환한다.
 
 ### iregex
 
-## 집합 기능
+대소문자 구분하지 않는 regex
 
-### expression
-
-### output_field
-
-### filter
-
-### **extra
-
-### Avg
-
-### Count
-
-### Max
-
-### Min
-
-### StdDev
-
-### Sum
-
-### Variance
 
 ## Query관련 툴
 
 ### Q() objects
 
-### Prefetch() objects
+Q()객체는 DB관련 작업에 사용할 수 있는 SQL 표현식을 캡슐화한다. 일반적으로 Q()객체를 사용하면 조건을 정의하고 다시 사용할 수 있다. 이렇게 하면 `|`를 사용하여 복잡한 데이터베이스 주회를 작성할 수 있다. QuerySet에서는 OR을 사용하는 것이 가능하지 않으므로 Q()객체르 이용한다.
 
-### prefetch\_related\_objects()
-
-### FilteredRelation() objects
-
-
-
-
+```python
+Q(question__startswith='Who') | Q(question__startswith='What')
+```
 
