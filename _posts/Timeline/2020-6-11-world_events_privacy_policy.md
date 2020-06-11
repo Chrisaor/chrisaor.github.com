@@ -1,6 +1,8 @@
 ---
 layout: post
-title: Timeline World Events Privacy Policy
+title: "Timeline World Events Privacy Policy"
+date: 2020-06-11 14:20:00 +0900
+categories: Timeline
 ---
 
 
