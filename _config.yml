@@ -3,9 +3,9 @@ markdown:         kramdown
 highlighter:      rouge
 
 # Setup
-title:            Julian Park
-tagline:          'Wep developer'
-description:      '웹 개발 잘하고싶어요'
+title:            Chanhyeok Park
+tagline:          'Developer'
+description:      'Python, Django, Flutter Developer'
 url:              https://chrisaor.github.io
 baseurl:          # the optional subpath of your site, e.g. "/blog"
                   # NB: This applies to all pages in your Jekyll site.
@@ -13,7 +13,7 @@ baseurl:          # the optional subpath of your site, e.g. "/blog"
                   # other pages at root, see the paginate_path and
                   # sidebar_blog_link below.
 
-name:           'Julian Park'
+name:           'Chanhyeok Park'
 
 paginate:         15
 # paginate_path:    '/page:num'
